@@ -26,6 +26,14 @@ export default {
         {
           path: '/main/teamInfo',
           title: '队伍信息'
+        },
+        {
+          path: '/main/worksSubmit',
+          title: '作品提交'
+        },
+        {
+          path: '/main/worksStatus',
+          title: '作品进度'
         }
       ]
     }

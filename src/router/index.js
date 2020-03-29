@@ -6,6 +6,8 @@ const teamhall = () => import(/* webpackChunkName: "login" */ '../views/teamhall
 const main = () => import(/* webpackChunkName: "backend" */ '../views/mainpage/index.vue')
 const userInfo = () => import(/* webpackChunkName: "backend" */ '../views/mainpage/pages/userInfo.vue')
 const teamInfo = () => import(/* webpackChunkName: "backend" */ '../views/mainpage/pages/teamInfo.vue')
+const worksSubmit = () => import(/* webpackChunkName: "backend" */ '../views/mainpage/pages/worksSubmit.vue')
+const worksStatus = () => import(/* webpackChunkName: "backend" */ '../views/mainpage/pages/worksStatus.vue')
 
 Vue.use(VueRouter)
 
@@ -27,6 +29,14 @@ const routes = [
       {
         path: 'teamInfo',
         component: teamInfo
+      },
+      {
+        path: 'worksSubmit',
+        component: worksSubmit
+      },
+      {
+        path: 'worksStatus',
+        component: worksStatus
       }
     ]
   },
