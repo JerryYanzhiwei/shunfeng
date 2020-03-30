@@ -2,7 +2,7 @@
   <div class="main_header_container">
     <div class="left_txt">“顺丰杯”物流创新设计大赛</div>
     <div class="right">
-      <span>张三</span>
+      <span @click="$router.push('/main')">张三</span>
       <div class="exit_btn"
         @click="exitLogin">退出</div>
     </div>
@@ -35,8 +35,10 @@ export default {
     display: flex;
     align-items: center;
     color: #fff;
-    .exit_btn {
+    span {
       cursor: pointer;
+    }
+    .exit_btn {
       margin: 0 20px;
       font-size: 12px;
     }

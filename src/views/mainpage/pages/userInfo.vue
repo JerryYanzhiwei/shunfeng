@@ -1,69 +1,87 @@
 <template>
-  <div class="works_list_container">
-    <div class="filter_container">
-      <el-tabs v-model="activeType" @tab-click="handleClick">
-        <el-tab-pane label="初筛" name="0"></el-tab-pane>
-        <el-tab-pane label="半决赛" name="1"></el-tab-pane>
-        <el-tab-pane label="决赛" name="2"></el-tab-pane>
-      </el-tabs>
+  <div class="userInfo_container">
+    <PublicTitle title="个人信息"/>
+    <div class="user_contain">
+      <div class="user_top">
+        <div>
+          <span>姓名: </span>
+          <el-input size="mini"></el-input>
+        </div>
+        <div>
+          <span>手机: </span>
+          <el-input size="mini"></el-input>
+        </div>
+        <div>
+          <span>邮箱: </span>
+          <el-input size="mini"></el-input>
+        </div>
+        <div>
+          <span>学校: </span>
+          <el-input size="mini"></el-input>
+        </div>
+        <div>
+          <span>专业: </span>
+          <el-input size="mini"></el-input>
+        </div>
+        <div>
+          <span>年级: </span>
+          <el-input size="mini"></el-input>
+        </div>
+      </div>
+      <div class="btn_contain">
+        <el-button size="mini">修改</el-button>
+      </div>
     </div>
-    <el-table :data="tableData"
-      border>
-      <el-table-column
-        prop=""
-        label="#">
-      </el-table-column>
-      <el-table-column
-        prop=""
-        label="队伍名称">
-      </el-table-column>
-      <el-table-column
-        prop=""
-        label="作品名称">
-      </el-table-column>
-      <el-table-column
-        prop=""
-        label="命题">
-      </el-table-column>
-      <el-table-column
-        prop=""
-        label="赛区">
-      </el-table-column>
-      <el-table-column
-        prop=""
-        label="作品附件">
-      </el-table-column>
-      <el-table-column
-        prop=""
-        label="评审情况">
-      </el-table-column>
-    </el-table>
   </div>
 </template>
 
 <script>
+import PublicTitle from '@/components/public_title.vue'
 export default {
+  components: {
+    PublicTitle
+  },
   data () {
     return {
-      activeType: '0',
-      tableData: []
     }
-  },
-  created () {
-    this.getData()
   },
   methods: {
-    handleClick (e) {
-      this.activeType = e.name
-    },
-    getData () {
-      const tableData = []
-      this.tableData = tableData
-    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.works_list_container {}
+.userInfo_container {
+  width: 100%;
+  min-height: 100vh;
+
+  background-color: #f4f5f8;
+  .user_contain {
+    margin-top: 30px;
+    padding: 20px 30px;
+
+    background-color: #fff;
+    border-radius: 8px;
+    .user_top {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+
+      div {
+        width: 50%;
+        margin: 10px 0;
+
+        text-align: center;
+        span {
+          margin-right: 10px;
+        }
+      }
+    }
+    .btn_contain {
+      margin-top: 10px;
+
+      text-align: center;
+    }
+  }
+}
 </style>

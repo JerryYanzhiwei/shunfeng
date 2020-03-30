@@ -26,6 +26,6 @@ export default {
   line-height: 30px;
   color: #fff;
   border-radius: 5px;
-  background-color: $btn_bg_color;
+  background-color: #F56C6C;
 }
 </style>

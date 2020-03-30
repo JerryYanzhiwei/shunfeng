@@ -68,3 +68,7 @@ html {
 html, body, #app {
   min-height: 100vh;
 }
+
+.iconfont {
+  color: #8a8a8a;
+}

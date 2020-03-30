@@ -1,7 +1,7 @@
 <template>
   <div class="header_container">
     <span>顺丰包装大赛</span>
-    <span>登录</span>
+    <span>张三</span>
   </div>
 </template>
 
@@ -31,5 +31,8 @@ export default {
 
     background-color: #fff;
     box-shadow:0px 2px 10px 0px rgba(0,0,0,0.1);
+    span {
+      cursor: pointer;
+    }
   }
 </style>

@@ -24,8 +24,16 @@ export default {
           title: '我的信息'
         },
         {
+          path: '/main/teamCenter',
+          title: '队伍中心'
+        },
+        {
           path: '/main/teamInfo',
           title: '队伍信息'
+        },
+        {
+          path: '/main/applyList',
+          title: '申请列表'
         },
         {
           path: '/main/worksSubmit',

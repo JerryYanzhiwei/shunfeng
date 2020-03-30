@@ -127,12 +127,11 @@ export default {
     align-items: center;
   }
   .submit_container {
-    margin-top: 20px;
-    border-radius: 60px;
-    border: 1px solid $btn_bg_color;
+    margin-top: 30px;
+    box-shadow: 1px 2px 5px 1px #D3D3D3;
     .submit_item {
       display: flex;
-      border-bottom: 1px solid $btn_bg_color;
+      border-bottom: 1px solid #ddd;
       &:last-child {
         border-bottom: unset;
       }
@@ -144,7 +143,7 @@ export default {
         padding: 0 20px;
       }
       .submit_left {
-        border-right: 1px solid $btn_bg_color;
+        border-right: 1px solid #ddd;
       }
       .submit_center {
         flex-grow: 1;
@@ -157,7 +156,7 @@ export default {
         }
       }
       .submit_right {
-        border-left: 1px solid $btn_bg_color;
+        border-left: 1px solid #ddd;
         .del_btn {
           color: red;
           user-select: none;

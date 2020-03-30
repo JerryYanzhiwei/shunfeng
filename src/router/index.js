@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Router from 'vue-router'
 import Login from './login'
 
 const teamhall = () => import(/* webpackChunkName: "login" */ '../views/teamhall/index.vue')
@@ -8,8 +8,15 @@ const userInfo = () => import(/* webpackChunkName: "backend" */ '../views/mainpa
 const teamInfo = () => import(/* webpackChunkName: "backend" */ '../views/mainpage/pages/teamInfo.vue')
 const worksSubmit = () => import(/* webpackChunkName: "backend" */ '../views/mainpage/pages/worksSubmit.vue')
 const worksStatus = () => import(/* webpackChunkName: "backend" */ '../views/mainpage/pages/worksStatus.vue')
+const applyList = () => import(/* webpackChunkName: "backend" */ '../views/mainpage/pages/applyList.vue')
+const teamCenter = () => import(/* webpackChunkName: "backend" */ '../views/mainpage/pages/teamCenter.vue')
 
-Vue.use(VueRouter)
+const routerPush = Router.prototype.push
+Router.prototype.push = function push (location) {
+  return routerPush.call(this, location).catch(error => error)
+}
+
+Vue.use(Router)
 
 const routes = [
   {
@@ -31,19 +38,27 @@ const routes = [
         component: teamInfo
       },
       {
+        path: 'applyList',
+        component: applyList
+      },
+      {
         path: 'worksSubmit',
         component: worksSubmit
       },
       {
         path: 'worksStatus',
         component: worksStatus
+      },
+      {
+        path: 'teamCenter',
+        component: teamCenter
       }
     ]
   },
   ...Login
 ]
 
-const router = new VueRouter({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
