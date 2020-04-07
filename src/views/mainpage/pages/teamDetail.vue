@@ -87,8 +87,33 @@
             <span class="detail">大二</span>
           </p>
         </div>
-        <div class="btn_contain">
-          移除队伍
+      </div>
+      <div class="member_item">
+        <div class="member_name">
+          <i class="iconfont icon-shouhuoren"></i>
+          长丰
+        </div>
+        <div class="item_contain">
+          <p class="item_detail">
+            <span class="title">手机号: </span>
+            <span class="detail">13122221111</span>
+          </p>
+          <p class="item_detail">
+            <span class="title">邮箱: </span>
+            <span class="detail">xxx@qq.com</span>
+          </p>
+          <p class="item_detail">
+            <span class="title">学校: </span>
+            <span class="detail">风湿性学校</span>
+          </p>
+          <p class="item_detail">
+            <span class="title">专业: </span>
+            <span class="detail">默默地说</span>
+          </p>
+          <p class="item_detail">
+            <span class="title">年级: </span>
+            <span class="detail">大二</span>
+          </p>
         </div>
       </div>
       <div class="member_item">
@@ -118,8 +143,33 @@
             <span class="detail">大二</span>
           </p>
         </div>
-        <div class="btn_contain">
-          移除队伍
+      </div>
+      <div class="member_item">
+        <div class="member_name">
+          <i class="iconfont icon-shouhuoren"></i>
+          长丰
+        </div>
+        <div class="item_contain">
+          <p class="item_detail">
+            <span class="title">手机号: </span>
+            <span class="detail">13122221111</span>
+          </p>
+          <p class="item_detail">
+            <span class="title">邮箱: </span>
+            <span class="detail">xxx@qq.com</span>
+          </p>
+          <p class="item_detail">
+            <span class="title">学校: </span>
+            <span class="detail">风湿性学校</span>
+          </p>
+          <p class="item_detail">
+            <span class="title">专业: </span>
+            <span class="detail">默默地说</span>
+          </p>
+          <p class="item_detail">
+            <span class="title">年级: </span>
+            <span class="detail">大二</span>
+          </p>
         </div>
       </div>
       <div class="member_item">
@@ -149,72 +199,13 @@
             <span class="detail">大二</span>
           </p>
         </div>
-        <div class="btn_contain">
-          移除队伍
-        </div>
       </div>
-      <div class="member_item">
-        <div class="member_name">
-          <i class="iconfont icon-shouhuoren"></i>
-          长丰
-        </div>
-        <div class="item_contain">
-          <p class="item_detail">
-            <span class="title">手机号: </span>
-            <span class="detail">13122221111</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">邮箱: </span>
-            <span class="detail">xxx@qq.com</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">学校: </span>
-            <span class="detail">风湿性学校</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">专业: </span>
-            <span class="detail">默默地说</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">年级: </span>
-            <span class="detail">大二</span>
-          </p>
-        </div>
-        <div class="btn_contain">
-          移除队伍
-        </div>
-      </div>
-      <div class="member_item">
-        <div class="member_name">
-          <i class="iconfont icon-shouhuoren"></i>
-          长丰
-        </div>
-        <div class="item_contain">
-          <p class="item_detail">
-            <span class="title">手机号: </span>
-            <span class="detail">13122221111</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">邮箱: </span>
-            <span class="detail">xxx@qq.com</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">学校: </span>
-            <span class="detail">风湿性学校</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">专业: </span>
-            <span class="detail">默默地说</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">年级: </span>
-            <span class="detail">大二</span>
-          </p>
-        </div>
-        <div class="btn_contain">
-          移除队伍
-        </div>
-      </div>
+    </div>
+    <PublicTitle title="作品列表" />
+    <div class="work_list">
+      <div>作品.ppt</div>
+      <div>作品.ppt</div>
+      <div>作品.ppt</div>
     </div>
   </div>
 </template>
@@ -297,6 +288,7 @@ export default {
       display: flex;
       flex-wrap: wrap;
 
+      margin-bottom: 50px;
       .member_item {
         width: 31%;
         margin-top: 30px;
@@ -341,6 +333,20 @@ export default {
           font-size: 14px;
           cursor: pointer;
         }
+      }
+    }
+    .work_list {
+      display: flex;
+      justify-content: space-between;
+
+      padding-top: 30px;
+      div {
+        width: 33%;
+
+        text-align: center;
+        color: #dc1e32;
+        font-weight: bold;
+        cursor: pointer;
       }
     }
   }

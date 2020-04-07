@@ -27,6 +27,20 @@
           <span>年级: </span>
           <el-input size="mini"></el-input>
         </div>
+        <div>
+          <span>指导老师: </span>
+          <el-input size="mini"></el-input>
+        </div>
+        <div>
+          <span>老师电话: </span>
+          <el-input size="mini"></el-input>
+        </div>
+        <div class="">
+          <span>备注:</span>
+          <el-input rows="3" resize="none" type="textarea"></el-input>
+        </div>
+        <div class="">
+        </div>
       </div>
       <div class="btn_contain">
         <el-button size="mini">修改</el-button>
@@ -73,7 +87,12 @@ export default {
 
         text-align: center;
         span {
+          display: inline-block;
+
+          width: 85px;
           margin-right: 10px;
+
+          text-align: right;
         }
       }
     }
@@ -84,4 +103,11 @@ export default {
     }
   }
 }
+</style>
+
+<style lang="scss">
+  .userInfo_container .user_contain .user_top div.el-textarea {
+    vertical-align: top;
+    margin: 0;
+  }
 </style>

@@ -38,10 +38,6 @@ export default {
         {
           path: '/main/worksSubmit',
           title: '作品提交'
-        },
-        {
-          path: '/main/worksStatus',
-          title: '作品进度'
         }
       ]
     }

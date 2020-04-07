@@ -30,13 +30,14 @@
           <div class="tip_item">方案的可实施性说明</div>
         </div>
         <div class="submit_right flex_center">
-          <span v-if="file1.name">
-            <span>{{file1.name}}</span>
-            <span class="del_btn"
-              @click="delFile('1')">删除</span>
+          <span v-if="true">
+            <span>{{file1.name}}xxxxx</span>
+            <span class="del_btn iconfont icon-lajitong"
+              @click="delFile('1')"></span>
           </span>
           <PublicButton v-else @clickHandle="clickUploadBtn('1')">上传</PublicButton>
           <input type="file" v-show="false" :multiple="false" ref="file1" @change="fileChange1">
+          <!-- <i class="iconfont icon-lajitong"></i> -->
         </div>
       </div>
       <div class="submit_item">
@@ -54,6 +55,11 @@
           <input type="file" v-show="false" :multiple="false" ref="file2" @change="fileChange2">
         </div>
       </div>
+    </div>
+    <PublicTitle title="作品进度" />
+    <div class="current_progress">
+      <span>当前进度</span>
+      <span class="bold">初筛</span>
     </div>
   </div>
 </template>
@@ -120,6 +126,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.bold {
+  font-weight: bold;
+  color: #dc1e32;
+}
 .works_submit_container {
   .flex_center {
     display: flex;
@@ -128,6 +138,7 @@ export default {
   }
   .submit_container {
     margin-top: 30px;
+    margin-bottom: 50px;
     box-shadow: 1px 2px 5px 1px #D3D3D3;
     .submit_item {
       display: flex;
@@ -158,14 +169,21 @@ export default {
       .submit_right {
         border-left: 1px solid #ddd;
         .del_btn {
-          color: red;
           user-select: none;
           cursor: pointer;
           margin-left: 20px;
-          font-size: 12px;
+          font-size: 16px;
         }
       }
     }
+  }
+  .current_progress {
+    display: flex;
+    justify-content: space-between;
+
+    margin-top: 30px;
+
+    font-size: 16px;
   }
 }
 </style>

@@ -2,7 +2,7 @@
   <div class="team_cener_container">
     <PublicTitle title="已加入" />
     <div class="team_contain added_contain">
-      <div class="team_item">
+      <div @click="toDetail" class="team_item">
         <div class="team_name">
           <i class="iconfont icon-tuandui"></i>
           关西支队
@@ -11,10 +11,6 @@
           <div class="item_detail">
             <div class="title">队长: </div>
             <div class="detail">关宏峰</div>
-          </div>
-          <div class="item_detail">
-            <div class="title">队长电话: </div>
-            <div class="detail">13122221111</div>
           </div>
           <div class="item_detail">
             <div class="title">所在城市: </div>
@@ -45,10 +41,6 @@
             <div class="detail">关宏峰</div>
           </div>
           <div class="item_detail">
-            <div class="title">队长电话: </div>
-            <div class="detail">13122221111</div>
-          </div>
-          <div class="item_detail">
             <div class="title">所在城市: </div>
             <div class="detail">深圳</div>
           </div>
@@ -75,10 +67,6 @@
           <div class="item_detail">
             <div class="title">队长: </div>
             <div class="detail">关宏峰</div>
-          </div>
-          <div class="item_detail">
-            <div class="title">队长电话: </div>
-            <div class="detail">13122221111</div>
           </div>
           <div class="item_detail">
             <div class="title">所在城市: </div>
@@ -99,7 +87,7 @@
         </div>
       </div>
     </div>
-    <PublicTitle title="申请中" />
+    <PublicTitle title="申请列表" />
     <div class="team_contain">
       <div class="team_item">
         <div class="team_name">
@@ -112,10 +100,6 @@
             <div class="detail">关宏峰</div>
           </div>
           <div class="item_detail">
-            <div class="title">队长电话: </div>
-            <div class="detail">13122221111</div>
-          </div>
-          <div class="item_detail">
             <div class="title">所在城市: </div>
             <div class="detail">深圳</div>
           </div>
@@ -144,10 +128,6 @@
             <div class="detail">关宏峰</div>
           </div>
           <div class="item_detail">
-            <div class="title">队长电话: </div>
-            <div class="detail">13122221111</div>
-          </div>
-          <div class="item_detail">
             <div class="title">所在城市: </div>
             <div class="detail">深圳</div>
           </div>
@@ -174,10 +154,6 @@
           <div class="item_detail">
             <div class="title">队长: </div>
             <div class="detail">关宏峰</div>
-          </div>
-          <div class="item_detail">
-            <div class="title">队长电话: </div>
-            <div class="detail">13122221111</div>
           </div>
           <div class="item_detail">
             <div class="title">所在城市: </div>
@@ -209,6 +185,11 @@ export default {
   },
   data () {
     return {}
+  },
+  methods: {
+    toDetail () {
+      this.$router.push('teamDetail')
+    }
   }
 }
 </script>
@@ -234,6 +215,7 @@ export default {
 
         background-color: #fff;
         border-radius: 10px;
+        cursor: pointer;
         transition: all .2s linear;
         &:nth-child(3n + 1) {
           margin-left: 0;

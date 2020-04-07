@@ -120,9 +120,26 @@
               >
             </el-input>
           </el-form-item>
+          <!-- 指导老师 -->
+          <el-form-item
+            label="指导老师">
+            <el-input
+              v-model="registryForm.teacher"
+              size="mini"
+              >
+            </el-input>
+          </el-form-item>
+          <!-- 年级 -->
+          <el-form-item
+            label="老师电话">
+            <el-input
+              v-model="registryForm.teacherPhone"
+              size="mini"
+              >
+            </el-input>
+          </el-form-item>
           <!-- 备注 -->
           <el-form-item
-            prop="remark"
             label="备注">
             <el-input
               v-model="registryForm.remark"
@@ -161,7 +178,9 @@ export default {
         school: '',
         major: '',
         grade: '',
-        remark: ''
+        remark: '',
+        teacher: '',
+        teacherPhone: ''
       },
       rules: {
         name: [
@@ -186,9 +205,6 @@ export default {
           { required: true, message: '', trigger: 'blur' }
         ],
         grade: [
-          { required: true, message: '', trigger: 'blur' }
-        ],
-        remark: [
           { required: true, message: '', trigger: 'blur' }
         ]
       }

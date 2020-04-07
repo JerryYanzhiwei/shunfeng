@@ -8,6 +8,7 @@
       <div class="team_contain">
         <div class="team_item">
           <div class="team_name">
+            <span class="teamNum">#0001</span>
             关西支队
           </div>
           <div class="item_contain">
@@ -20,8 +21,24 @@
               <div class="detail">13122221111</div>
             </div>
             <div class="item_detail">
-              <div class="title">所在城市: </div>
-              <div class="detail">深圳</div>
+              <div class="title">省份: </div>
+              <div class="detail">广东</div>
+            </div>
+            <div class="item_detail">
+              <div class="title">赛区: </div>
+              <div class="detail">华南</div>
+            </div>
+            <div class="item_detail">
+              <div class="title">作品方向: </div>
+              <div class="detail">xxxx</div>
+            </div>
+            <div class="item_detail">
+              <div class="title">作品课题: </div>
+              <div class="detail">xxxxxx</div>
+            </div>
+            <div class="item_detail">
+              <div class="title">指导老师: </div>
+              <div class="detail">华南</div>
             </div>
             <div class="item_detail">
               <div class="title">招募需求: </div>
@@ -124,12 +141,23 @@ export default {
             transform: translate3d(0,-2px,0);
           }
           .team_name {
+            position: relative;
+
             height: 40px;
             line-height: 40px;
+            padding: 0 20px;
 
             text-align: center;
             font-size: 16px;
             font-weight: bold;
+            .teamNum {
+              position: absolute;
+              left: 20px;
+
+              font-size: 12px;
+              font-weight: normal;
+              color: #dc1e32;
+            }
           }
           .item_contain {
             padding: 0 20px;

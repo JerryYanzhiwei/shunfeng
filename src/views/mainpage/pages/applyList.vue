@@ -30,7 +30,7 @@
             <span class="detail">大二</span>
           </p>
           <p class="item_detail">
-            <span class="title">备注: </span>
+            <span class="title">留言: </span>
             <span class="detail">范德萨范德萨发生的</span>
           </p>
         </div>
