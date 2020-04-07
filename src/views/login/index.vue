@@ -9,7 +9,7 @@
       </div>
       <div v-if="!loginType" class="form_item">
         <span class="label_title">密码</span>
-        <el-input v-model="loginForm.password" size="mini"></el-input>
+        <el-input type="password" v-model="loginForm.password" size="mini"></el-input>
       </div>
       <div v-else class="form_item msg_input">
         <span class="label_title">验证码</span>
@@ -157,6 +157,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   data () {
     return {
@@ -211,9 +212,15 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['login']),
     // 密码登录
-    passwordLogin () {
-      console.log('密码登录')
+    async passwordLogin () {
+      const res = await this.login(this.loginForm)
+      if (res.result === '0') {
+        sessionStorage.setItem('userInfo', JSON.stringify(res.data))
+        this.$router.push('/moduleSelect')
+      }
+      console.log('密码登录', res)
     },
     codeLogin () {
       console.log('密码登录')

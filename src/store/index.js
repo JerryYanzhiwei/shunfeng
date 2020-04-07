@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from '@/utils/http'
 
 Vue.use(Vuex)
 
@@ -9,6 +10,69 @@ export default new Vuex.Store({
   mutations: {
   },
   actions: {
+    /**
+     * 用户
+     */
+    async login ({ commit }, data = {}) {
+      const { data: res } = await axios.post(`/login?phone=${data.phone}&password=${data.password}`)
+      return res
+    },
+    /**
+     * 队伍
+     */
+    // 获取队伍大厅数据
+    async GET_HALL_DATA ({ commit }, data = {}) {
+      const { data: res } = await axios.get('/user/team/hall', data)
+      return res
+    },
+    // 我加入的队伍
+    async GET_JOIN_DETAIL ({ commit }, data = {}) {
+      const { data: res } = await axios.get('/user/team/my/detail', data)
+      return res
+    },
+    // 队伍中心
+    async GET_TEMP_CENTER ({ commit }, data = {}) {
+      const { data: res } = await axios.get('/user/team/my', data)
+      return res
+    },
+    // 申请加入队伍
+    async POST_APPLY_TEAM ({ commit }, data = {}) {
+      const { data: res } = await axios.post(`/user/team/apply?leaveMesseges=${data.leaveMesseges}&teamNo=${data.teamNo}`)
+      return res
+    },
+    // 创建队伍
+    async POST_CREATE_TEAM ({ commit }, data = {}) {
+      const { data: res } = await axios.post('/user/team', data)
+      return res
+    },
+    /**
+     * 团队管理信息
+     */
+    // 队长团队信息
+    async GET_MY_TEAM_INFO ({ commit }, data = {}) {
+      const { data: res } = await axios.get('/user/teamInfo', data)
+      return res
+    },
+    // 团队申请列表
+    async GET_TEAM_APPLY_LIST ({ commit }, data = {}) {
+      const { data: res } = await axios.get('/user/teamInfo/applyLists', data)
+      return res
+    },
+    // 团队完成组队
+    async PUT_TEAM_COMPLETE ({ commit }, data = {}) {
+      const { data: res } = await axios.put(`/user/teamInfo/complete?teamNo=${data.teamNo}&teamState=${data.teamState}`)
+      return res
+    },
+    // 团队入队审批
+    async PUT_TEAM_CHECK ({ commit }, data = {}) {
+      const { data: res } = await axios.put('/user/teamInfo/joinTeam', data)
+      return res
+    },
+    // 移除队员
+    async PUT_REMOVE_MEMBER ({ commit }, data = {}) {
+      const { data: res } = await axios.put(`/user/teamInfo/remove?teamMemberId=${data.teamMemberId}&teamNo=${data.teamNo}`)
+      return res
+    }
   },
   modules: {
   }

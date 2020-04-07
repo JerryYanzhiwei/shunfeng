@@ -6,6 +6,10 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/reset.css'
 
+// 混入
+import mixin from '@/mixin/index'
+Vue.mixin(mixin)
+
 Vue.use(ElementUI)
 
 Vue.config.productionTip = false

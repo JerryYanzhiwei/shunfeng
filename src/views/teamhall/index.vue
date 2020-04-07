@@ -80,6 +80,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import PublicTitle from '@/components/public_title.vue'
 import MainHeader from '@/components/MainHeader.vue'
 export default {
@@ -90,10 +91,27 @@ export default {
   data () {
     return {
       // 弹框是否可见
-      dialogVisible: false
+      dialogVisible: false,
+      // hall data
+      hallData: {
+        pageNo: 0,
+        pageSize: 12,
+        province: null,
+        teamNo: null
+      }
     }
   },
+  created () {
+    this.getHallData()
+  },
   methods: {
+    ...mapActions(['GET_HALL_DATA']),
+    // 获取大厅消息
+    async getHallData () {
+      const params = this.hallData
+      const res = await this.GET_HALL_DATA({ params })
+      console.log(res, 12321)
+    },
     // 弹框关闭
     handleClose (done) {
       this.dialogVisible = false

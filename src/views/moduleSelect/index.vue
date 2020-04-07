@@ -4,10 +4,10 @@
       <MainHeader></MainHeader>
     </el-header>
     <div class="main_contain">
-      <div @click="dialogVisible = true" class="module_item">
+      <div @click="canCreate" class="module_item">
         创建队伍
       </div>
-      <div class="module_item">
+      <div @click="$router.push('/teamhall')" class="module_item">
         加入队伍
       </div>
     </div>
@@ -143,6 +143,13 @@ export default {
     }
   },
   methods: {
+    canCreate () {
+      if (this.getUser().captainFlag) {
+        this.$message.error('你已有队伍')
+      } else {
+        this.dialogVisible = true
+      }
+    },
     createTeam () {
       this.$refs.createForm.validate(valid => {
         if (valid) {
