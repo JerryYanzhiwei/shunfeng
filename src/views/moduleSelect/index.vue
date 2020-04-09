@@ -32,62 +32,90 @@
             size="mini"></el-input>
         </el-form-item>
         <el-form-item
+          prop="matchZone"
+          label="赛区"
+          >
+          <el-select
+            v-model="formData.matchZone"
+            @change="selecZone"
+            placeholder="请选择赛区">
+            <el-option
+              v-for="item in matchArr"
+              :key="item.value"
+              :label="item.matchZone"
+              :value="item.code">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item
           prop="province"
           label="省份"
           >
-          <el-input
-            v-model="formData.province"
-            size="mini"></el-input>
+          <el-select v-model="formData.province" placeholder="请选择">
+            <el-option
+              v-for="item in provinceArr"
+              :key="item.value"
+              :label="item.city"
+              :value="item.code">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item
-          prop="zone"
-          label="赛区"
-          >
-          <el-input
-            v-model="formData.zone"
-            size="mini"></el-input>
-        </el-form-item>
-        <el-form-item
-          prop="direction"
+          prop="opusDirection"
           label="作品方向"
           >
-          <el-input
-            v-model="formData.direction"
-            size="mini"></el-input>
+          <el-select
+            v-model="formData.opusDirection"
+            @change="selecDirect"
+            placeholder="请选择作品方向">
+            <el-option
+              v-for="item in directionArr"
+              :key="item.value"
+              :label="item.directionName"
+              :value="item.directionId">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item
-          prop="topic"
+          prop="subject"
           label="作品课题"
           >
-          <el-input
-            v-model="formData.topic"
-            size="mini"></el-input>
+          <el-select
+            v-model="formData.subject"
+            placeholder="请选择作品课题">
+            <el-option
+              v-for="item in subjectArr"
+              :key="item.value"
+              :label="item.subjectName"
+              :value="item.subjectId">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item
           label="指导老师"
           >
           <el-input
-            v-model="formData.teacherName"
+            v-model="formData.instructor"
             size="mini"></el-input>
         </el-form-item>
         <el-form-item
           label="老师电话"
           >
           <el-input
-            v-model="formData.teacherPhone"
+            v-model="formData.instructorPhone"
             size="mini"></el-input>
         </el-form-item>
         <el-form-item
-          prop="needs"
+          prop="recruitmentDemand"
           label="招募需求"
           >
-          <el-input v-model="formData.needs" resize="none" rows="3" size="mini" type="textarea"></el-input>
+          <el-input v-model="formData.recruitmentDemand" resize="none" rows="3" size="mini" type="textarea"></el-input>
         </el-form-item>
         <el-form-item
-          prop="intr"
+          prop="teamIntroduction"
           label="团队介绍"
           >
-          <el-input v-model="formData.intr" resize="none" rows="3" size="mini" type="textarea"></el-input>
+          <el-input v-model="formData.teamIntroduction" resize="none" rows="3" size="mini" type="textarea"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -99,6 +127,9 @@
 
 <script>
 import MainHeader from '@/components/MainHeader.vue'
+import jsonData from '@/config/province.js'
+
+import { mapActions } from 'vuex'
 export default {
   components: {
     MainHeader
@@ -106,16 +137,20 @@ export default {
   data () {
     return {
       dialogVisible: false,
+      matchArr: jsonData,
+      provinceArr: [],
+      directionArr: [],
+      subjectArr: [],
       formData: {
         teamName: '',
         province: '',
-        zone: '',
-        teacherName: '',
-        teacherPhone: '',
-        direction: '',
-        topic: '',
-        needs: '',
-        intr: ''
+        matchZone: '',
+        instructor: '',
+        instructorPhone: '',
+        opusDirection: '',
+        subject: '',
+        recruitmentDemand: '',
+        teamIntroduction: ''
       },
       rules: {
         teamName: [
@@ -124,25 +159,43 @@ export default {
         province: [
           { required: true, message: '', trigger: 'blur' }
         ],
-        zone: [
+        matchZone: [
           { required: true, message: '', trigger: 'blur' }
         ],
-        direction: [
+        opusDirection: [
           { required: true, message: '', trigger: 'blur' }
         ],
-        topic: [
+        subject: [
           { required: true, message: '', trigger: 'blur' }
         ],
-        needs: [
+        recruitmentDemand: [
           { required: true, message: '', trigger: 'blur' }
         ],
-        intr: [
+        teamIntroduction: [
           { required: true, message: '', trigger: 'blur' }
         ]
       }
     }
   },
+  created () {
+    this.getDirection()
+  },
   methods: {
+    ...mapActions(['POST_CREATE_TEAM', 'GET_DIRECTION']),
+    async getDirection () {
+      const res = await this.GET_DIRECTION()
+      this.directionArr = res.data
+    },
+    selecDirect (data) {
+      this.formData.subject = ''
+      const arr = this.directionArr.filter((val) => val.directionId === data)
+      this.subjectArr = arr[0].subjects
+    },
+    selecZone (data) {
+      this.formData.province = ''
+      const arr = this.matchArr.filter((val) => val.code === data)
+      this.provinceArr = arr[0].province
+    },
     canCreate () {
       if (this.getUser().captainFlag) {
         this.$message.error('你已有队伍')
@@ -151,9 +204,14 @@ export default {
       }
     },
     createTeam () {
-      this.$refs.createForm.validate(valid => {
+      this.$refs.createForm.validate(async (valid) => {
         if (valid) {
-          console.log('通过')
+          this.formData.instructorPhone = Number(this.formData.instructorPhone)
+          const params = this.formData
+          const res = await this.POST_CREATE_TEAM(params)
+          if (res.result === '0' && res.data) {
+            this.$router.push('/teamhall')
+          }
         }
       })
     }

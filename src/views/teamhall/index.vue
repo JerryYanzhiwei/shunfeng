@@ -6,56 +6,56 @@
     <div class="team_container">
       <PublicTitle title="队伍列表" />
       <div class="team_contain">
-        <div class="team_item">
+        <div v-for="(item, index) in teamList" :key="index" class="team_item">
           <div class="team_name">
-            <span class="teamNum">#0001</span>
-            关西支队
+            <span class="teamNum">{{item.teamNo}}</span>
+            {{item.teamName}}
           </div>
           <div class="item_contain">
             <div class="item_detail">
               <div class="title">队长: </div>
-              <div class="detail">关宏峰</div>
+              <div class="detail">{{item.captain}}</div>
             </div>
             <div class="item_detail">
               <div class="title">队长电话: </div>
-              <div class="detail">13122221111</div>
-            </div>
-            <div class="item_detail">
-              <div class="title">省份: </div>
-              <div class="detail">广东</div>
+              <div class="detail">{{item.captainPhone}}</div>
             </div>
             <div class="item_detail">
               <div class="title">赛区: </div>
-              <div class="detail">华南</div>
+              <div class="detail">{{getZone(item.matchZone)}}</div>
+            </div>
+            <div class="item_detail">
+              <div class="title">省份: </div>
+              <div class="detail">{{getProvince(item.matchZone, item.province)}}</div>
             </div>
             <div class="item_detail">
               <div class="title">作品方向: </div>
-              <div class="detail">xxxx</div>
+              <div class="detail">{{item.opusDirection}}</div>
             </div>
             <div class="item_detail">
               <div class="title">作品课题: </div>
-              <div class="detail">xxxxxx</div>
+              <div class="detail">{{item.subject}}</div>
             </div>
             <div class="item_detail">
               <div class="title">指导老师: </div>
-              <div class="detail">华南</div>
+              <div class="detail">{{item.instructor}}</div>
             </div>
             <div class="item_detail">
               <div class="title">招募需求: </div>
-              <div class="detail">深圳大学</div>
+              <div class="detail">{{item.recruitmentDemand}}</div>
             </div>
             <div class="item_detail">
               <div class="title">团队介绍: </div>
-              <el-tooltip class="item" effect="dark" content="我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队" placement="top-start">
+              <el-tooltip class="item" effect="dark" :content="item.teamIntroduction" placement="top-start">
                 <div class="detail">
-                  我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队
+                  {{item.teamIntroduction}}
                 </div>
               </el-tooltip>
             </div>
           </div>
           <div class="btn_contain">
-            <span class="limit_count">2/5</span>
-            <el-button @click="submitApply" type="danger" size="mini">申请加入</el-button>
+            <span class="limit_count">{{item.memberNum}}/5</span>
+            <el-button @click="joinTeam(item.teamNo)" type="danger" size="mini">申请加入</el-button>
           </div>
         </div>
       </div>
@@ -70,10 +70,11 @@
         rows="3"
         resize="none"
         type="textarea"
+        v-model="joinData.leaveMesseges"
         ></el-input>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="danger" @click="dialogVisible = false">确 定</el-button>
+        <el-button type="danger" @click="submitApply">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -98,6 +99,11 @@ export default {
         pageSize: 12,
         province: null,
         teamNo: null
+      },
+      teamList: [],
+      joinData: {
+        leaveMesseges: '',
+        teamNo: ''
       }
     }
   },
@@ -105,12 +111,14 @@ export default {
     this.getHallData()
   },
   methods: {
-    ...mapActions(['GET_HALL_DATA']),
+    ...mapActions(['GET_HALL_DATA', 'POST_APPLY_TEAM']),
     // 获取大厅消息
     async getHallData () {
       const params = this.hallData
       const res = await this.GET_HALL_DATA({ params })
-      console.log(res, 12321)
+      if (res.result === '0' && res.data) {
+        this.teamList = this.teamList.concat(res.data.records)
+      }
     },
     // 弹框关闭
     handleClose (done) {
@@ -118,9 +126,22 @@ export default {
     },
 
     // 提交申请
-    submitApply () {
-      console.log('提交')
+    joinTeam (teamNo) {
+      this.joinData.teamNo = teamNo
       this.dialogVisible = true
+    },
+    async submitApply () {
+      const params = this.joinData
+      try {
+        const res = await this.POST_APPLY_TEAM(params)
+        if (res.result === '0' && res.data) {
+          this.$message.success('申请成功')
+        }
+        this.dialogVisible = false
+      } catch (err) {
+        console.log(err)
+        this.dialogVisible = false
+      }
     }
   }
 }

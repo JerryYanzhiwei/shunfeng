@@ -1,7 +1,7 @@
 <template>
   <div class="header_container">
     <span>顺丰包装大赛</span>
-    <span>张三</span>
+    <span>{{userInfo.name}}xxxxx</span>
   </div>
 </template>
 
@@ -10,8 +10,11 @@ export default {
   // #f4f5f8
   data () {
     return {
-      msg: '主页面'
+      userInfo: {}
     }
+  },
+  created () {
+    this.userInfo = this.getUser()
   }
 }
 </script>

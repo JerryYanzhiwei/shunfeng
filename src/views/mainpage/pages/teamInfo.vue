@@ -91,135 +91,12 @@
           移除队伍
         </div>
       </div>
-      <div class="member_item">
-        <div class="member_name">
-          <i class="iconfont icon-shouhuoren"></i>
-          长丰
-        </div>
-        <div class="item_contain">
-          <p class="item_detail">
-            <span class="title">手机号: </span>
-            <span class="detail">13122221111</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">邮箱: </span>
-            <span class="detail">xxx@qq.com</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">学校: </span>
-            <span class="detail">风湿性学校</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">专业: </span>
-            <span class="detail">默默地说</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">年级: </span>
-            <span class="detail">大二</span>
-          </p>
-        </div>
-        <div class="btn_contain">
-          移除队伍
-        </div>
-      </div>
-      <div class="member_item">
-        <div class="member_name">
-          <i class="iconfont icon-shouhuoren"></i>
-          长丰
-        </div>
-        <div class="item_contain">
-          <p class="item_detail">
-            <span class="title">手机号: </span>
-            <span class="detail">13122221111</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">邮箱: </span>
-            <span class="detail">xxx@qq.com</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">学校: </span>
-            <span class="detail">风湿性学校</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">专业: </span>
-            <span class="detail">默默地说</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">年级: </span>
-            <span class="detail">大二</span>
-          </p>
-        </div>
-        <div class="btn_contain">
-          移除队伍
-        </div>
-      </div>
-      <div class="member_item">
-        <div class="member_name">
-          <i class="iconfont icon-shouhuoren"></i>
-          长丰
-        </div>
-        <div class="item_contain">
-          <p class="item_detail">
-            <span class="title">手机号: </span>
-            <span class="detail">13122221111</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">邮箱: </span>
-            <span class="detail">xxx@qq.com</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">学校: </span>
-            <span class="detail">风湿性学校</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">专业: </span>
-            <span class="detail">默默地说</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">年级: </span>
-            <span class="detail">大二</span>
-          </p>
-        </div>
-        <div class="btn_contain">
-          移除队伍
-        </div>
-      </div>
-      <div class="member_item">
-        <div class="member_name">
-          <i class="iconfont icon-shouhuoren"></i>
-          长丰
-        </div>
-        <div class="item_contain">
-          <p class="item_detail">
-            <span class="title">手机号: </span>
-            <span class="detail">13122221111</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">邮箱: </span>
-            <span class="detail">xxx@qq.com</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">学校: </span>
-            <span class="detail">风湿性学校</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">专业: </span>
-            <span class="detail">默默地说</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">年级: </span>
-            <span class="detail">大二</span>
-          </p>
-        </div>
-        <div class="btn_contain">
-          移除队伍
-        </div>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import PublicTitle from '@/components/public_title.vue'
 export default {
   components: {
@@ -227,6 +104,16 @@ export default {
   },
   data () {
     return {
+    }
+  },
+  created () {
+    this.getTeamInfo()
+  },
+  methods: {
+    ...mapActions(['GET_MY_TEAM_INFO']),
+    async getTeamInfo () {
+      const res = await this.GET_MY_TEAM_INFO()
+      console.log(res, 12321312)
     }
   }
 }

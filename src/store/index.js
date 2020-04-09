@@ -17,6 +17,22 @@ export default new Vuex.Store({
       const { data: res } = await axios.post(`/login?phone=${data.phone}&password=${data.password}`)
       return res
     },
+    async POST_GET_CODE ({ commit }, data = {}) {
+      const { data: res } = await axios.post(`/code?phone=${data.phone}`)
+      return res
+    },
+    async POST_REGISTRY ({ commit }, data = {}) {
+      const { data: res } = await axios.post('/register', data)
+      return res
+    },
+    async GET_USER_INFO ({ commit }, data = {}) {
+      const { data: res } = await axios.get('/user/account/profile')
+      return res
+    },
+    async PUT_USER_INFO ({ commit }, data = {}) {
+      const { data: res } = await axios.put('/user/account/profile', data)
+      return res
+    },
     /**
      * 队伍
      */
@@ -32,7 +48,7 @@ export default new Vuex.Store({
     },
     // 队伍中心
     async GET_TEMP_CENTER ({ commit }, data = {}) {
-      const { data: res } = await axios.get('/user/team/my', data)
+      const { data: res } = await axios.get(`/user/team/my?pageNo=${data.pageNo}&pageSize=${data.pageSize}&teamApplys=${data.teamApplys}`)
       return res
     },
     // 申请加入队伍
@@ -71,6 +87,13 @@ export default new Vuex.Store({
     // 移除队员
     async PUT_REMOVE_MEMBER ({ commit }, data = {}) {
       const { data: res } = await axios.put(`/user/teamInfo/remove?teamMemberId=${data.teamMemberId}&teamNo=${data.teamNo}`)
+      return res
+    },
+    /**
+     * 作品方向
+     */
+    async GET_DIRECTION ({ commit }, data = {}) {
+      const { data: res } = await axios.get('/user/direction')
       return res
     }
   },

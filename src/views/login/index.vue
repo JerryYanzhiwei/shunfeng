@@ -13,13 +13,13 @@
       </div>
       <div v-else class="form_item msg_input">
         <span class="label_title">验证码</span>
-        <el-input v-model="loginForm.code" size="mini"></el-input>
+        <el-input v-model="loginForm.verificationCode" size="mini"></el-input>
         <span class="send_msg">发送验证码</span>
       </div>
       <div class="btn_contain">
-        <span @click="isLogin = false">账号注册</span>
-        <el-button v-if="!loginType" @click="passwordLogin">密码登录</el-button>
-        <el-button v-if="loginType" @click="codeLogin">验证码登录</el-button>
+        <span @click="isLogin = false">注册</span>
+        <el-button v-if="!loginType" @click="passwordLogin">登录</el-button>
+        <el-button v-if="loginType" @click="codeLogin">登录</el-button>
         <span @click="changeLoginType">
           {{
             !loginType ? '验证码登录' : '密码登录'
@@ -61,10 +61,10 @@
           </el-form-item>
           <!-- 验证码 -->
           <el-form-item
-            prop="code"
+            prop="verificationCode"
             label="验证码">
             <el-input
-              v-model="registryForm.code"
+              v-model="registryForm.verificationCode"
               size="mini"
               >
             </el-input>
@@ -75,6 +75,7 @@
             prop="password"
             label="密码">
             <el-input
+              type="password"
               v-model="registryForm.password"
               size="mini"
               >
@@ -102,10 +103,10 @@
           </el-form-item>
           <!-- 专业 -->
           <el-form-item
-            prop="major"
+            prop="profession"
             label="专业">
             <el-input
-              v-model="registryForm.major"
+              v-model="registryForm.profession"
               size="mini"
               >
             </el-input>
@@ -120,29 +121,11 @@
               >
             </el-input>
           </el-form-item>
-          <!-- 指导老师 -->
-          <el-form-item
-            label="指导老师">
-            <el-input
-              v-model="registryForm.teacher"
-              size="mini"
-              >
-            </el-input>
-          </el-form-item>
-          <!-- 年级 -->
-          <el-form-item
-            label="老师电话">
-            <el-input
-              v-model="registryForm.teacherPhone"
-              size="mini"
-              >
-            </el-input>
-          </el-form-item>
           <!-- 备注 -->
           <el-form-item
             label="备注">
             <el-input
-              v-model="registryForm.remark"
+              v-model="registryForm.described"
               size="mini"
               >
             </el-input>
@@ -168,20 +151,18 @@ export default {
       loginForm: {
         phone: '',
         password: '',
-        code: ''
+        verificationCode: ''
       },
       registryForm: {
         name: '',
         phone: '',
-        code: '',
+        verificationCode: '',
         password: '',
         email: '',
         school: '',
-        major: '',
+        profession: '',
         grade: '',
-        remark: '',
-        teacher: '',
-        teacherPhone: ''
+        described: ''
       },
       rules: {
         name: [
@@ -190,7 +171,7 @@ export default {
         phone: [
           { required: true, message: '', trigger: 'blur' }
         ],
-        code: [
+        verificationCode: [
           { required: true, message: '', trigger: 'blur' }
         ],
         password: [
@@ -202,7 +183,7 @@ export default {
         school: [
           { required: true, message: '', trigger: 'blur' }
         ],
-        major: [
+        profession: [
           { required: true, message: '', trigger: 'blur' }
         ],
         grade: [
@@ -212,7 +193,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['login']),
+    ...mapActions(['login', 'POST_GET_CODE', 'POST_REGISTRY']),
     // 密码登录
     async passwordLogin () {
       const res = await this.login(this.loginForm)
@@ -230,14 +211,26 @@ export default {
       this.loginType = !this.loginType
     },
     // 获取注册验证码
-    getRegistryCode () {
-      console.log('获取验证码')
+    async getRegistryCode () {
+      const res = await this.POST_GET_CODE({
+        phone: this.registryForm.phone
+      })
+      if (res.result === '0' && res.data) {
+        this.$message.success('发送成功')
+        console.log('获取验证码', res.data)
+      }
     },
     // 注册账号
     submitRegistry () {
-      this.$refs.registryForm.validate(valid => {
+      this.$refs.registryForm.validate(async (valid) => {
         if (valid) {
-          console.log('通过')
+          const params = this.registryForm
+          const res = await this.POST_REGISTRY(params)
+          if (res.result === '0' && res.data) {
+            this.$message.success('注册成功')
+            location.reload()
+          }
+          console.log('通过', res)
         }
       })
     }

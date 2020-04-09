@@ -30,62 +30,6 @@
           </div>
         </div>
       </div>
-      <div class="team_item">
-        <div class="team_name">
-          <i class="iconfont icon-tuandui"></i>
-          关西支队
-        </div>
-        <div class="item_contain">
-          <div class="item_detail">
-            <div class="title">队长: </div>
-            <div class="detail">关宏峰</div>
-          </div>
-          <div class="item_detail">
-            <div class="title">所在城市: </div>
-            <div class="detail">深圳</div>
-          </div>
-          <div class="item_detail">
-            <div class="title">招募需求: </div>
-            <div class="detail">深圳大学</div>
-          </div>
-          <div class="item_detail">
-            <div class="title">团队介绍: </div>
-            <el-tooltip class="item" effect="dark" content="我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队" placement="top-start">
-              <div class="detail">
-                我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队
-              </div>
-            </el-tooltip>
-          </div>
-        </div>
-      </div>
-      <div class="team_item">
-        <div class="team_name">
-          <i class="iconfont icon-tuandui"></i>
-          关西支队
-        </div>
-        <div class="item_contain">
-          <div class="item_detail">
-            <div class="title">队长: </div>
-            <div class="detail">关宏峰</div>
-          </div>
-          <div class="item_detail">
-            <div class="title">所在城市: </div>
-            <div class="detail">深圳</div>
-          </div>
-          <div class="item_detail">
-            <div class="title">招募需求: </div>
-            <div class="detail">深圳大学</div>
-          </div>
-          <div class="item_detail">
-            <div class="title">团队介绍: </div>
-            <el-tooltip class="item" effect="dark" content="我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队" placement="top-start">
-              <div class="detail">
-                我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队我们是一个优秀的团队
-              </div>
-            </el-tooltip>
-          </div>
-        </div>
-      </div>
     </div>
     <PublicTitle title="申请列表" />
     <div class="team_contain">
@@ -179,14 +123,36 @@
 
 <script>
 import PublicTitle from '@/components/public_title.vue'
+
+import { mapActions } from 'vuex'
 export default {
   components: {
     PublicTitle
   },
   data () {
-    return {}
+    return {
+      joinedForm: {
+        pageNo: 1,
+        pageSize: 12,
+        teamApplys: '[1]'
+      },
+      applyedForm: {
+        pageNo: 1,
+        pageSize: 12,
+        teamApplys: '[0, 3]'
+      }
+    }
+  },
+  created () {
+    this.getApplyList(this.joinedForm)
   },
   methods: {
+    ...mapActions(['GET_TEMP_CENTER']),
+    // 查询申请列表
+    async getApplyList (params, type) {
+      const res = await this.GET_TEMP_CENTER(params)
+      console.elog(res)
+    },
     toDetail () {
       this.$router.push('teamDetail')
     }

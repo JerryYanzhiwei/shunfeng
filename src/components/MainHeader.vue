@@ -2,7 +2,7 @@
   <div class="main_header_container">
     <div class="left_txt">“顺丰杯”物流创新设计大赛</div>
     <div class="right">
-      <span @click="$router.push('/main')">张三</span>
+      <span @click="$router.push('/main')">{{userData.name}}</span>
       <div class="exit_btn"
         @click="exitLogin">退出</div>
     </div>
@@ -11,6 +11,11 @@
 
 <script>
 export default {
+  computed: {
+    userData () {
+      return this.getUser()
+    }
+  },
   methods: {
     exitLogin () {
       this.$router.push('/')

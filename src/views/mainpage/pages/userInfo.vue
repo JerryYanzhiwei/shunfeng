@@ -5,45 +5,37 @@
       <div class="user_top">
         <div>
           <span>姓名: </span>
-          <el-input size="mini"></el-input>
+          <el-input v-model="userForm.name" size="mini"></el-input>
         </div>
         <div>
           <span>手机: </span>
-          <el-input size="mini"></el-input>
+          <el-input disabled="" v-model="userForm.phone" size="mini"></el-input>
         </div>
         <div>
           <span>邮箱: </span>
-          <el-input size="mini"></el-input>
+          <el-input v-model="userForm.email" size="mini"></el-input>
         </div>
         <div>
           <span>学校: </span>
-          <el-input size="mini"></el-input>
+          <el-input v-model="userForm.school" size="mini"></el-input>
         </div>
         <div>
           <span>专业: </span>
-          <el-input size="mini"></el-input>
+          <el-input v-model="userForm.profession" size="mini"></el-input>
         </div>
         <div>
           <span>年级: </span>
-          <el-input size="mini"></el-input>
-        </div>
-        <div>
-          <span>指导老师: </span>
-          <el-input size="mini"></el-input>
-        </div>
-        <div>
-          <span>老师电话: </span>
-          <el-input size="mini"></el-input>
+          <el-input v-model="userForm.grade" size="mini"></el-input>
         </div>
         <div class="">
           <span>备注:</span>
-          <el-input rows="3" resize="none" type="textarea"></el-input>
+          <el-input v-model="userForm.described" rows="3" resize="none" type="textarea"></el-input>
         </div>
         <div class="">
         </div>
       </div>
       <div class="btn_contain">
-        <el-button size="mini">修改</el-button>
+        <el-button @click="editUserInfo" size="mini">修改</el-button>
       </div>
     </div>
   </div>
@@ -51,15 +43,43 @@
 
 <script>
 import PublicTitle from '@/components/public_title.vue'
+
+import { mapActions } from 'vuex'
 export default {
   components: {
     PublicTitle
   },
   data () {
     return {
+      userForm: {
+        accountId: '',
+        name: '',
+        phone: '',
+        email: '',
+        school: '',
+        profession: '',
+        grade: '',
+        described: ''
+      }
     }
   },
+  created () {
+    this.getUserInfo()
+  },
   methods: {
+    ...mapActions(['GET_USER_INFO', 'PUT_USER_INFO']),
+    async editUserInfo () {
+      const params = this.userForm
+      const res = await this.PUT_USER_INFO(params)
+      console.log(res)
+    },
+    async getUserInfo () {
+      const res = await this.GET_USER_INFO()
+      if (res.result === '0' && res.data) {
+        this.userForm = res.data
+      }
+      console.log(res)
+    }
   }
 }
 </script>

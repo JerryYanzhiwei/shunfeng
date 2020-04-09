@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import PublicTitle from '@/components/public_title.vue'
 export default {
   components: {
@@ -50,6 +51,16 @@ export default {
   },
   data () {
     return {}
+  },
+  created () {
+    this.getApplyList()
+  },
+  methods: {
+    ...mapActions(['GET_TEAM_APPLY_LIST']),
+    async getApplyList () {
+      const res = await this.GET_TEAM_APPLY_LIST()
+      console.log(res)
+    }
   }
 }
 </script>
