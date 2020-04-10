@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import { instance } from '@/utils/http'
+import { instance, BASE_URL } from '@/utils/http'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -107,6 +107,16 @@ export default new Vuex.Store({
     async POST_FILE_UPLOAD ({ commit }, data = {}) {
       const { data: res } = await instance.post('/user/teamInfo/attachment', data)
       return res
+    },
+    // 查询团队作品
+    async GET_TEAM_FILE ({ commit }) {
+      const { data: res } = await instance.get('/user/teamInfo/opus')
+      return res
+    },
+    // 下载附件
+    async GET_DOWNLOAD_FILE ({ commit }, attachmentId = 0) {
+      const url = '/user/teamInfo/dowload/attachment'
+      window.open(`${BASE_URL}${url}?attachmentId=${attachmentId}`)
     }
   },
   modules: {

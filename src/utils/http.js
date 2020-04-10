@@ -4,9 +4,9 @@ import {
   Message
 } from 'element-ui'
 
-const URL = 'http://47.103.28.48:8080/match-service'
-// const URL = 'http://192.168.1.57:8080/match-service'
-axios.defaults.baseURL = URL
+export const BASE_URL = 'http://47.103.28.48:8080/match-service'
+// export const BASE_URL = 'http://192.168.1.57:8080/match-service'
+axios.defaults.baseURL = BASE_URL
 
 axios.defaults.withCredentials = true
 
@@ -18,7 +18,7 @@ axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded'
 
 // 上传图片
 export const instance = axios.create({
-  baseURL: URL,
+  baseURL: BASE_URL,
   timeout: 100000,
   headers: {
     'Content-Type': 'multipart/form-data'
