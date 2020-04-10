@@ -1,7 +1,7 @@
 <template>
   <div class="header_container">
     <span>顺丰包装大赛</span>
-    <span>{{userInfo.name}}xxxxx</span>
+    <span>{{userInfo.name}}</span>
   </div>
 </template>
 

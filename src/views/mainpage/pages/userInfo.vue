@@ -71,6 +71,9 @@ export default {
     async editUserInfo () {
       const params = this.userForm
       const res = await this.PUT_USER_INFO(params)
+      if (res.result === '0' && res.data) {
+        this.$message.success('修改成功')
+      }
       console.log(res)
     },
     async getUserInfo () {

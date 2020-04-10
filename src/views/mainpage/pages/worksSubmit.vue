@@ -78,6 +78,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import PublicTitle from '@/components/public_title.vue'
 import PublicButton from '@/components/public_button.vue'
 export default {
@@ -102,6 +103,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['POST_FILE_UPLOAD']),
     clickUploadBtn (type) {
       console.log('上传类型', type)
       const ref = `file${type}`

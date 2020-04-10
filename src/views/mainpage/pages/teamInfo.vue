@@ -1,51 +1,51 @@
 <template>
   <div class="team_info_container">
     <PublicTitle title="队伍信息" />
-    <div class="leader_contain">
+    <div v-if="teamInfo" class="leader_contain">
       <div class="leader_top">
         <div class="item">
           <span class="item_name">编号: </span>
-          <span class="item_detail">3332</span>
+          <span class="item_detail">{{teamInfo.teamNo}}</span>
         </div>
         <div class="item">
           <span class="item_name">队伍: </span>
-          <span class="item_detail">长丰</span>
+          <span class="item_detail">{{teamInfo.teamName}}</span>
         </div>
         <div class="item">
           <span class="item_name">队长: </span>
-          <span class="item_detail">关宏峰</span>
+          <span class="item_detail">{{teamInfo.captain}}</span>
         </div>
         <div class="item">
           <span class="item_name">院校: </span>
-          <span class="item_detail">深圳大学</span>
-        </div>
-        <div class="item">
-          <span class="item_name">省份: </span>
-          <span class="item_detail">广东</span>
+          <span class="item_detail">{{teamInfo.school}}</span>
         </div>
         <div class="item">
           <span class="item_name">赛区: </span>
-          <span class="item_detail">华南</span>
+          <span class="item_detail">{{getZone(teamInfo.matchZone)}}</span>
+        </div>
+        <div class="item">
+          <span class="item_name">省份: </span>
+          <span class="item_detail">{{getProvince(teamInfo.matchZone, teamInfo.province)}}</span>
         </div>
         <div class="item">
           <span class="item_name">方向: </span>
-          <span class="item_detail">xxxxx</span>
+          <span class="item_detail">{{teamInfo.opusDirection}}</span>
         </div>
         <div class="item">
           <span class="item_name">课题: </span>
-          <span class="item_detail">xxxxx</span>
+          <span class="item_detail">{{teamInfo.subject}}</span>
         </div>
         <div class="item">
           <span class="item_name">队长电话: </span>
-          <span class="item_detail">13122221111</span>
+          <span class="item_detail">{{teamInfo.captainPhone}}</span>
         </div>
         <div class="item">
           <span class="item_name">指导老师: </span>
-          <span class="item_detail">传达室</span>
+          <span class="item_detail">{{teamInfo.instructor}}</span>
         </div>
         <div class="item">
           <span class="item_name">老师电话: </span>
-          <span class="item_detail">13122221111</span>
+          <span class="item_detail">{{teamInfo.instructorPhone}}</span>
         </div>
       </div>
       <div class="leader_bottom">
@@ -104,6 +104,7 @@ export default {
   },
   data () {
     return {
+      teamInfo: null
     }
   },
   created () {
@@ -113,7 +114,9 @@ export default {
     ...mapActions(['GET_MY_TEAM_INFO']),
     async getTeamInfo () {
       const res = await this.GET_MY_TEAM_INFO()
-      console.log(res, 12321312)
+      if (res.result === '0' && res.data) {
+        this.teamInfo = res.data
+      }
     }
   }
 }
@@ -173,9 +176,15 @@ export default {
 
             color: rgb(51, 51, 51);
             text-align: right;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           }
           .item_detail {
             color: rgb(51, 51, 51);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           }
         }
       }

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from '@/utils/http'
-
+import axios from 'axios'
+import { instance } from '@/utils/http'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -48,7 +48,11 @@ export default new Vuex.Store({
     },
     // 队伍中心
     async GET_TEMP_CENTER ({ commit }, data = {}) {
-      const { data: res } = await axios.get(`/user/team/my?pageNo=${data.pageNo}&pageSize=${data.pageSize}&teamApplys=${data.teamApplys}`)
+      let str = ''
+      data.teamApplys.map(item => {
+        str += '&teamApplys=' + item
+      })
+      const { data: res } = await axios.get(`/user/team/my?pageNo=${data.pageNo}&pageSize=${data.pageSize}${str}`)
       return res
     },
     // 申请加入队伍
@@ -94,6 +98,14 @@ export default new Vuex.Store({
      */
     async GET_DIRECTION ({ commit }, data = {}) {
       const { data: res } = await axios.get('/user/direction')
+      return res
+    },
+    /**
+     * 作品上传
+     */
+    // 文件上传
+    async POST_FILE_UPLOAD ({ commit }, data = {}) {
+      const { data: res } = await instance.post('/user/teamInfo/attachment', data)
       return res
     }
   },

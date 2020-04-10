@@ -3,38 +3,38 @@
     <PublicTitle title="申请列表" />
     <div class="apply_contain">
       <!-- 队伍成员 -->
-      <div class="member_item">
+      <div class="member_item" v-for="(item, index) in applyList" :key="index">
         <div class="member_name">
           <i class="iconfont icon-shouhuoren"></i>
-          关宏峰
+          {{item.name}}
         </div>
         <div class="item_contain">
           <p class="item_detail">
-            <span class="title">姓名: </span>
-            <span class="detail">佛挡杀佛</span>
+            <span class="title">手机号: </span>
+            <span class="detail">{{item.phone}}</span>
           </p>
           <p class="item_detail">
-            <span class="title">手机号: </span>
-            <span class="detail">13122221111</span>
+            <span class="title">邮箱: </span>
+            <span class="detail">{{item.email}}</span>
           </p>
           <p class="item_detail">
             <span class="title">学校: </span>
-            <span class="detail">风湿性学校</span>
+            <span class="detail">{{item.school}}</span>
           </p>
           <p class="item_detail">
             <span class="title">专业: </span>
-            <span class="detail">默默地说</span>
+            <span class="detail">{{item.profession}}</span>
           </p>
           <p class="item_detail">
             <span class="title">年级: </span>
-            <span class="detail">大二</span>
+            <span class="detail">{{item.grade}}</span>
           </p>
           <p class="item_detail">
             <span class="title">留言: </span>
-            <span class="detail">范德萨范德萨发生的</span>
+            <span class="detail">{{item.leaveMessage}}</span>
           </p>
         </div>
-        <div class="btn_contain">
+        <div @click="greenApply(item)" class="btn_contain">
           同意入队
         </div>
       </div>
@@ -50,16 +50,38 @@ export default {
     PublicTitle
   },
   data () {
-    return {}
+    return {
+      applyList: [],
+      teamInfo: {}
+    }
   },
-  created () {
-    this.getApplyList()
+  async created () {
+    await this.getTeamInfo()
+    await this.getApplyList()
   },
   methods: {
-    ...mapActions(['GET_TEAM_APPLY_LIST']),
+    ...mapActions(['GET_TEAM_APPLY_LIST', 'GET_MY_TEAM_INFO']),
     async getApplyList () {
       const res = await this.GET_TEAM_APPLY_LIST()
       console.log(res)
+    },
+    // 入队审批
+    async greenApply (data) {
+      const res = await this.PUT_TEAM_CHECK({
+        teamApplyEnum: 1,
+        teamMemberId: data.teamMemberId,
+        teamNo: this.teamInfo.teamNo
+      })
+      if (res.result === '0' && res.data) {
+        this.$message.success('成功')
+        this.getApplyList()
+      }
+    },
+    async getTeamInfo (data) {
+      const res = await this.GET_MY_TEAM_INFO()
+      if (res.result === '0' && res.data) {
+        this.teamInfo = res.data
+      }
     }
   }
 }
