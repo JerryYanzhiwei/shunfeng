@@ -1,5 +1,6 @@
 <template>
   <div class="public_button"
+    :class="disabled ? 'disabled' : ''"
     @click="btnClick">
     <slot></slot>
   </div>
@@ -7,9 +8,14 @@
 
 <script>
 export default {
+  props: {
+    disabled: {
+      default: false
+    }
+  },
   methods: {
     btnClick (e) {
-      this.$emit('clickHandle', e)
+      !this.disabled && this.$emit('clickHandle', e)
     }
   }
 }
@@ -27,5 +33,9 @@ export default {
   color: #fff;
   border-radius: 5px;
   background-color: #F56C6C;
+  &.disabled {
+    cursor: not-allowed;
+    background-color: gray;
+  }
 }
 </style>
