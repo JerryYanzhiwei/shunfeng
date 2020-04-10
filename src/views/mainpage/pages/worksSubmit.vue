@@ -18,7 +18,7 @@
               <span>{{item.attachmentFileName}}</span>
               <!-- <span @click="delFile('', index)" class="del_btn">x</span> -->
               <i class="iconfont icon-xiazai1 download_btn"
-                @click="download(item.attachmentId)">下载</i>
+                @click="download(item.attachmentId)"></i>
             </div>
           </div>
         </div>
@@ -44,7 +44,7 @@
               <span>{{item.attachmentFileName}}</span>
               <!-- <span @click="delFile('1', index)" class="del_btn">x</span> -->
               <i class="iconfont icon-xiazai1 download_btn"
-                @click="download(item.attachmentId)">下载</i>
+                @click="download(item.attachmentId)"></i>
             </div>
           </div>
         </div>
@@ -67,7 +67,7 @@
               <span>{{item.attachmentFileName}}</span>
               <!-- <span @click="delFile('2', index)" class="del_btn">x</span> -->
               <i class="iconfont icon-xiazai1 download_btn"
-                @click="download(item.attachmentId)">下载</i>
+                @click="download(item.attachmentId)"></i>
             </div>
           </div>
         </div>
@@ -233,7 +233,7 @@ export default {
       .submit_right {
         display: flex;
         align-items: center;
-        width: 200px;
+        width: 20%;
         padding: 0 20px;
       }
       .submit_left {
@@ -241,7 +241,7 @@ export default {
       }
       .submit_center {
         display: flex;
-        flex-grow: 1;
+        width: 60%;
         .tip_item {
           line-height: 28px;
           &.title {
@@ -263,6 +263,13 @@ export default {
           border-left: 1px solid #ddd;
           .file_item {
             width: 100%;
+            span {
+              width: 80%;
+              overflow: hidden;
+              display: inline-block;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
           }
           .del_btn {
             margin-left: 20px;
@@ -278,6 +285,7 @@ export default {
         }
       }
       .submit_right {
+        width: 20%;
         border-left: 1px solid #ddd;
         .del_btn {
           user-select: none;
