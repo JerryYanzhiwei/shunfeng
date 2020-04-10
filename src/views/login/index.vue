@@ -21,9 +21,9 @@
         <el-button v-if="!loginType" @click="passwordLogin">登录</el-button>
         <el-button v-if="loginType" @click="codeLogin">登录</el-button>
         <span @click="changeLoginType">
-          {{
+          <!-- {{
             !loginType ? '验证码登录' : '密码登录'
-          }}
+          }} -->
         </span>
       </div>
     </div>

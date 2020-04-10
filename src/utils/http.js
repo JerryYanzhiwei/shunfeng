@@ -1,10 +1,12 @@
 import axios from 'axios'
+import router from '@/router'
 import {
   Message
 } from 'element-ui'
 
-axios.defaults.baseURL = 'http://47.103.28.48:8080/match-service'
-// axios.defaults.baseURL = 'http://192.168.1.57:8080'
+const URL = 'http://47.103.28.48:8080/match-service'
+// const URL = 'http://192.168.1.57:8080/match-service'
+axios.defaults.baseURL = URL
 
 axios.defaults.withCredentials = true
 
@@ -13,6 +15,15 @@ axios.defaults.timeout = 120000
 
 // 头部
 axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+
+// 上传图片
+export const instance = axios.create({
+  baseURL: URL,
+  timeout: 100000,
+  headers: {
+    'Content-Type': 'multipart/form-data'
+  }
+})
 
 axios.interceptors.request.use(
   config => {
@@ -41,10 +52,15 @@ axios.interceptors.response.use(
   },
   error => {
     const msg = error.response.data.msg
+    const code = error.response.status
+    console.log(error.response)
     Message({
       message: msg,
       type: 'error'
     })
+    if (code === 401) {
+      router.push('/')
+    }
     return Promise.reject(error)
   }
 )

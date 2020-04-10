@@ -17,7 +17,9 @@
               @click="delFile('')">删除</span>
           </span>
           <PublicButton v-else @clickHandle="clickUploadBtn('0')">上传</PublicButton>
-          <input type="file" v-show="false" :multiple="false" ref="file0" @change="fileChange">
+          <form ref="INSTRUCTION" method="POST" enctype="multipart/form-data" id="fileUploadForm">
+            <input type="file" v-show="false" :multiple="true" ref="file0" @change="fileChange">
+          </form>
         </div>
       </div>
       <div class="submit_item">
@@ -65,6 +67,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import PublicTitle from '@/components/public_title.vue'
 import PublicButton from '@/components/public_button.vue'
 export default {
@@ -89,6 +92,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['POST_FILE_UPLOAD']),
     clickUploadBtn (type) {
       console.log('上传类型', type)
       const ref = `file${type}`
@@ -100,12 +104,16 @@ export default {
       this[key].file = null
       this[key].name = ''
     },
-    fileChange (e) {
-      const file = e.target.files[0]
-      console.log('file:', file)
-      const name = file.name
-      this.file.file = file
-      this.file.name = name
+    async fileChange (e) {
+      const files = e.target.files
+      const params = new FormData()
+      for (let i = 0; i < files.length; i++) {
+        console.log(files[i])
+        params.append('multipartFile', files[i])
+      }
+      params.append('attachmentTypeEnum', 'OPUS_INSTRUCTION_BOOK')
+      const res = await this.POST_FILE_UPLOAD(params)
+      console.log(res, 22222)
     },
     fileChange1 (e) {
       const file = e.target.files[0]
