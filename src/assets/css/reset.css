@@ -72,3 +72,20 @@ html, body, #app {
 .iconfont {
   color: #8a8a8a;
 }
+
+.el-aside {
+  position: fixed;
+  left: 0;
+  height: 100vh;
+  padding-top: 60px;
+}
+.el-main {
+  padding-left: 220px;
+  padding-top: 80px;
+}
+.el-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}

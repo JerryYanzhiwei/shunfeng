@@ -159,7 +159,7 @@ export default {
     .team_container {
       width: 1200px;
       margin: 0 auto;
-      margin-top: 50px;
+      padding-top: 110px;
       .team_contain {
         display: flex;
         flex-wrap: wrap;

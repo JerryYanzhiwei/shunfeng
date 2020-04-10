@@ -31,7 +31,7 @@
           </p>
           <p class="item_detail">
             <span class="title">留言: </span>
-            <span class="detail">{{item.leaveMessage}}</span>
+            <span class="detail">{{item.leaveMessege}}</span>
           </p>
         </div>
         <div @click="greenApply(item)" class="btn_contain">
@@ -60,9 +60,12 @@ export default {
     await this.getApplyList()
   },
   methods: {
-    ...mapActions(['GET_TEAM_APPLY_LIST', 'GET_MY_TEAM_INFO']),
+    ...mapActions(['GET_TEAM_APPLY_LIST', 'GET_MY_TEAM_INFO', 'PUT_TEAM_CHECK']),
     async getApplyList () {
       const res = await this.GET_TEAM_APPLY_LIST()
+      if (res.result === '0' && res.data) {
+        this.applyList = res.data
+      }
       console.log(res)
     },
     // 入队审批

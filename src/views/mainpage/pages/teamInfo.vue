@@ -5,89 +5,122 @@
       <div class="leader_top">
         <div class="item">
           <span class="item_name">编号: </span>
-          <span class="item_detail">{{teamInfo.teamNo}}</span>
+          <el-tooltip class="item" effect="dark" :content="teamInfo.teamNo" placement="top-start">
+            <span class="item_detail">{{teamInfo.teamNo}}</span>
+          </el-tooltip>
         </div>
         <div class="item">
           <span class="item_name">队伍: </span>
-          <span class="item_detail">{{teamInfo.teamName}}</span>
+          <el-tooltip class="item" effect="dark" :content="teamInfo.teamName" placement="top-start">
+            <span class="item_detail">{{teamInfo.teamName}}</span>
+          </el-tooltip>
         </div>
         <div class="item">
           <span class="item_name">队长: </span>
-          <span class="item_detail">{{teamInfo.captain}}</span>
+          <el-tooltip class="item" effect="dark" :content="teamInfo.captain" placement="top-start">
+            <span class="item_detail">{{teamInfo.captain}}</span>
+          </el-tooltip>
         </div>
         <div class="item">
           <span class="item_name">院校: </span>
-          <span class="item_detail">{{teamInfo.school}}</span>
+          <el-tooltip class="item" effect="dark" :content="teamInfo.captain" placement="top-start">
+            <span class="item_detail">{{teamInfo.school}}</span>
+          </el-tooltip>
         </div>
         <div class="item">
           <span class="item_name">赛区: </span>
-          <span class="item_detail">{{getZone(teamInfo.matchZone)}}</span>
+          <el-tooltip class="item" effect="dark" :content="getZone(teamInfo.matchZone)" placement="top-start">
+            <span class="item_detail">{{getZone(teamInfo.matchZone)}}</span>
+          </el-tooltip>
         </div>
         <div class="item">
           <span class="item_name">省份: </span>
-          <span class="item_detail">{{getProvince(teamInfo.matchZone, teamInfo.province)}}</span>
+          <el-tooltip class="item" effect="dark" :content="getProvince(teamInfo.matchZone, teamInfo.province)" placement="top-start">
+            <span class="item_detail">{{getProvince(teamInfo.matchZone, teamInfo.province)}}</span>
+          </el-tooltip>
         </div>
         <div class="item">
           <span class="item_name">方向: </span>
-          <span class="item_detail">{{teamInfo.opusDirection}}</span>
+          <el-tooltip class="item" effect="dark" :content="teamInfo.opusDirection" placement="top-start">
+            <span class="item_detail">{{teamInfo.opusDirection}}</span>
+          </el-tooltip>
         </div>
         <div class="item">
           <span class="item_name">课题: </span>
-          <span class="item_detail">{{teamInfo.subject}}</span>
+          <el-tooltip class="item" effect="dark" :content="teamInfo.subject" placement="top-start">
+            <span class="item_detail">{{teamInfo.subject}}</span>
+          </el-tooltip>
         </div>
         <div class="item">
           <span class="item_name">队长电话: </span>
-          <span class="item_detail">{{teamInfo.captainPhone}}</span>
+          <el-tooltip class="item" effect="dark" :content="teamInfo.captainPhone" placement="top-start">
+            <span class="item_detail">{{teamInfo.captainPhone}}</span>
+          </el-tooltip>
         </div>
         <div class="item">
           <span class="item_name">指导老师: </span>
-          <span class="item_detail">{{teamInfo.instructor}}</span>
+            <el-input :disabled="!canEdit" size="mini" v-model="teamInfo.instructor"></el-input>
         </div>
         <div class="item">
           <span class="item_name">老师电话: </span>
-          <span class="item_detail">{{teamInfo.instructorPhone}}</span>
+            <el-input :disabled="!canEdit" size="mini" v-model="teamInfo.instructorPhone"></el-input>
         </div>
       </div>
       <div class="leader_bottom">
         <div class="item">
-          <span class="item_name">组队中</span>
+          <span class="item_name">{{
+            teamInfo.teamState === 1 && '组队完成' ||
+            teamInfo.teamState === 0 && '发布中'
+            }}</span>
         </div>
         <div class="item">
-          <el-button size="mini">完成组队</el-button>
+          <el-button size="mini"
+            @click="editTeamStatus(teamInfo.teamState)"
+            >{{
+            teamInfo.teamState === 1 && '发布组队' ||
+            teamInfo.teamState === 0 && '组队完成'
+            }}</el-button>
+        </div>
+        <div class="item">
+          <el-button size="mini"
+            @click="editTeamInfo(teamInfo.teamNo)"
+            >{{
+              !canEdit ? '编辑信息' : '保存'
+            }}</el-button>
         </div>
       </div>
     </div>
     <PublicTitle title="队伍成员" />
-    <div class="member_contain">
+    <div v-if="teamInfo" class="member_contain">
       <!-- 队伍成员 -->
-      <div class="member_item">
+      <div v-for="(item, index) in teamInfo.teamMembers" :key="index" class="member_item">
         <div class="member_name">
           <i class="iconfont icon-shouhuoren"></i>
-          长丰
+          {{item.name}}
         </div>
         <div class="item_contain">
           <p class="item_detail">
             <span class="title">手机号: </span>
-            <span class="detail">13122221111</span>
+            <span class="detail">{{item.phone}}</span>
           </p>
           <p class="item_detail">
             <span class="title">邮箱: </span>
-            <span class="detail">xxx@qq.com</span>
+            <span class="detail">{{item.email}}</span>
           </p>
           <p class="item_detail">
             <span class="title">学校: </span>
-            <span class="detail">风湿性学校</span>
+            <span class="detail">{{item.school}}</span>
           </p>
           <p class="item_detail">
             <span class="title">专业: </span>
-            <span class="detail">默默地说</span>
+            <span class="detail">{{item.profession}}</span>
           </p>
           <p class="item_detail">
             <span class="title">年级: </span>
-            <span class="detail">大二</span>
+            <span class="detail">{{item.grade}}</span>
           </p>
         </div>
-        <div class="btn_contain">
+        <div @click="removeMember(item)" class="btn_contain">
           移除队伍
         </div>
       </div>
@@ -104,6 +137,7 @@ export default {
   },
   data () {
     return {
+      canEdit: false,
       teamInfo: null
     }
   },
@@ -111,12 +145,53 @@ export default {
     this.getTeamInfo()
   },
   methods: {
-    ...mapActions(['GET_MY_TEAM_INFO']),
+    ...mapActions(['GET_MY_TEAM_INFO', 'PUT_REMOVE_MEMBER', 'PUT_TEAM_COMPLETE', 'PUT_MY_TEAM_INFO']),
     async getTeamInfo () {
       const res = await this.GET_MY_TEAM_INFO()
       if (res.result === '0' && res.data) {
         this.teamInfo = res.data
       }
+    },
+    async editTeamInfo (teamNo) {
+      if (!this.canEdit) {
+        this.canEdit = !this.canEdit
+        return
+      }
+      if (!this.teamInfo.instructor) {
+        this.$message.error('请填写指导老师')
+        return
+      }
+      if (!this.teamInfo.instructorPhone) {
+        this.$message.error('请填写老师电话')
+        return
+      }
+      const res = await this.PUT_MY_TEAM_INFO({
+        instructor: this.teamInfo.instructor,
+        instructorPhone: this.teamInfo.instructorPhone,
+        teamNo: this.teamInfo.teamNo
+      })
+      if (res.result === '0' && res.data) {
+        this.$message.success('修改成功')
+        this.canEdit = !this.canEdit
+        this.getTeamInfo()
+      }
+    },
+    async removeMember (data) {
+      const res = await this.PUT_REMOVE_MEMBER({
+        teamMemberId: data.teamMemberId,
+        teamNo: this.teamInfo.teamNo
+      })
+      if (res.result === '0' && res.data) {
+        this.$message.success('移除成功')
+        this.getTeamInfo()
+      }
+    },
+    async editTeamStatus (status) {
+      const res = await this.PUT_TEAM_COMPLETE({
+        teamNo: this.teamInfo.teamNo,
+        teamState: status ? 0 : 1
+      })
+      console.log(res)
     }
   }
 }
@@ -144,12 +219,16 @@ export default {
           width: 33%;
           margin-top: 10px;
           font-size: 16px;
+
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
           &:nth-child(n > 3) {
           }
           .item_name {
             display: inline-block;
 
-            width: 120px;
+            width: 80px;
             margin-right: 5px;
 
             color: rgb(51, 51, 51);
@@ -238,6 +317,14 @@ export default {
           cursor: pointer;
         }
       }
+    }
+  }
+</style>
+
+<style lang="scss">
+  .leader_top {
+    .el-input {
+      width: 60%;
     }
   }
 </style>

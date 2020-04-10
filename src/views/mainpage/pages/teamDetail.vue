@@ -1,216 +1,118 @@
 <template>
-  <div class="team_info_container">
+  <div v-if="teamInfo" class="team_info_container">
     <PublicTitle title="队伍信息" />
     <div class="leader_contain">
       <div class="leader_top">
         <div class="item">
           <span class="item_name">编号: </span>
-          <span class="item_detail">3332</span>
+          <el-tooltip class="item" effect="dark" :content="teamInfo.teamNo" placement="top-start">
+            <span class="item_detail">{{teamInfo.teamNo}}</span>
+          </el-tooltip>
         </div>
         <div class="item">
           <span class="item_name">队伍: </span>
-          <span class="item_detail">长丰</span>
+          <el-tooltip class="item" effect="dark" :content="teamInfo.teamName" placement="top-start">
+            <span class="item_detail">{{teamInfo.teamName}}</span>
+          </el-tooltip>
         </div>
         <div class="item">
           <span class="item_name">队长: </span>
-          <span class="item_detail">关宏峰</span>
-        </div>
-        <div class="item">
-          <span class="item_name">院校: </span>
-          <span class="item_detail">深圳大学</span>
-        </div>
-        <div class="item">
-          <span class="item_name">省份: </span>
-          <span class="item_detail">广东</span>
+          <el-tooltip class="item" effect="dark" :content="teamInfo.captain" placement="top-start">
+            <span class="item_detail">{{teamInfo.captain}}</span>
+          </el-tooltip>
         </div>
         <div class="item">
           <span class="item_name">赛区: </span>
-          <span class="item_detail">华南</span>
+          <el-tooltip class="item" effect="dark" :content="getZone(teamInfo.matchZone)" placement="top-start">
+            <span class="item_detail">{{getZone(teamInfo.matchZone)}}</span>
+          </el-tooltip>
+        </div>
+        <div class="item">
+          <span class="item_name">省份: </span>
+          <el-tooltip class="item" effect="dark" :content="getProvince(teamInfo.matchZone, teamInfo.province)" placement="top-start">
+            <span class="item_detail">{{getProvince(teamInfo.matchZone, teamInfo.province)}}</span>
+          </el-tooltip>
         </div>
         <div class="item">
           <span class="item_name">方向: </span>
-          <span class="item_detail">xxxxx</span>
+          <el-tooltip class="item" effect="dark" :content="teamInfo.opusDirection" placement="top-start">
+            <span class="item_detail">{{teamInfo.opusDirection}}</span>
+          </el-tooltip>
         </div>
         <div class="item">
           <span class="item_name">课题: </span>
-          <span class="item_detail">xxxxx</span>
+          <el-tooltip class="item" effect="dark" :content="teamInfo.subject" placement="top-start">
+            <span class="item_detail">{{teamInfo.subject}}</span>
+          </el-tooltip>
         </div>
         <div class="item">
           <span class="item_name">队长电话: </span>
-          <span class="item_detail">13122221111</span>
+          <el-tooltip class="item" effect="dark" :content="teamInfo.captainPhone" placement="top-start">
+            <span class="item_detail">{{teamInfo.captainPhone}}</span>
+          </el-tooltip>
         </div>
         <div class="item">
           <span class="item_name">指导老师: </span>
-          <span class="item_detail">传达室</span>
-        </div>
-        <div class="item">
-          <span class="item_name">老师电话: </span>
-          <span class="item_detail">13122221111</span>
+          <el-tooltip class="item" effect="dark" :content="teamInfo.instructor" placement="top-start">
+            <span class="item_detail">{{teamInfo.instructor}}</span>
+          </el-tooltip>
         </div>
       </div>
-      <div class="leader_bottom">
+      <!-- <div class="leader_bottom">
         <div class="item">
           <span class="item_name">组队中</span>
         </div>
         <div class="item">
           <el-button size="mini">完成组队</el-button>
         </div>
-      </div>
+      </div> -->
     </div>
     <PublicTitle title="队伍成员" />
     <div class="member_contain">
       <!-- 队伍成员 -->
-      <div class="member_item">
+      <div v-for="(item, index) in teamInfo.teamMembers" :key="index" class="member_item">
         <div class="member_name">
           <i class="iconfont icon-shouhuoren"></i>
-          长丰
+          {{item.name}}
         </div>
         <div class="item_contain">
           <p class="item_detail">
             <span class="title">手机号: </span>
-            <span class="detail">13122221111</span>
+            <span class="detail">{{item.phone}}</span>
           </p>
           <p class="item_detail">
             <span class="title">邮箱: </span>
-            <span class="detail">xxx@qq.com</span>
+            <span class="detail">{{item.email}}</span>
           </p>
           <p class="item_detail">
             <span class="title">学校: </span>
-            <span class="detail">风湿性学校</span>
+            <span class="detail">{{item.school}}</span>
           </p>
           <p class="item_detail">
             <span class="title">专业: </span>
-            <span class="detail">默默地说</span>
+            <span class="detail">{{item.profession}}</span>
           </p>
           <p class="item_detail">
             <span class="title">年级: </span>
-            <span class="detail">大二</span>
-          </p>
-        </div>
-      </div>
-      <div class="member_item">
-        <div class="member_name">
-          <i class="iconfont icon-shouhuoren"></i>
-          长丰
-        </div>
-        <div class="item_contain">
-          <p class="item_detail">
-            <span class="title">手机号: </span>
-            <span class="detail">13122221111</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">邮箱: </span>
-            <span class="detail">xxx@qq.com</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">学校: </span>
-            <span class="detail">风湿性学校</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">专业: </span>
-            <span class="detail">默默地说</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">年级: </span>
-            <span class="detail">大二</span>
-          </p>
-        </div>
-      </div>
-      <div class="member_item">
-        <div class="member_name">
-          <i class="iconfont icon-shouhuoren"></i>
-          长丰
-        </div>
-        <div class="item_contain">
-          <p class="item_detail">
-            <span class="title">手机号: </span>
-            <span class="detail">13122221111</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">邮箱: </span>
-            <span class="detail">xxx@qq.com</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">学校: </span>
-            <span class="detail">风湿性学校</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">专业: </span>
-            <span class="detail">默默地说</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">年级: </span>
-            <span class="detail">大二</span>
-          </p>
-        </div>
-      </div>
-      <div class="member_item">
-        <div class="member_name">
-          <i class="iconfont icon-shouhuoren"></i>
-          长丰
-        </div>
-        <div class="item_contain">
-          <p class="item_detail">
-            <span class="title">手机号: </span>
-            <span class="detail">13122221111</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">邮箱: </span>
-            <span class="detail">xxx@qq.com</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">学校: </span>
-            <span class="detail">风湿性学校</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">专业: </span>
-            <span class="detail">默默地说</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">年级: </span>
-            <span class="detail">大二</span>
-          </p>
-        </div>
-      </div>
-      <div class="member_item">
-        <div class="member_name">
-          <i class="iconfont icon-shouhuoren"></i>
-          长丰
-        </div>
-        <div class="item_contain">
-          <p class="item_detail">
-            <span class="title">手机号: </span>
-            <span class="detail">13122221111</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">邮箱: </span>
-            <span class="detail">xxx@qq.com</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">学校: </span>
-            <span class="detail">风湿性学校</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">专业: </span>
-            <span class="detail">默默地说</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">年级: </span>
-            <span class="detail">大二</span>
+            <span class="detail">{{item.grade}}</span>
           </p>
         </div>
       </div>
     </div>
     <PublicTitle title="作品列表" />
     <div class="work_list">
-      <div>作品.ppt</div>
-      <div>作品.ppt</div>
-      <div>作品.ppt</div>
+      <div v-for="(item, index) in teamInfo.attachments" :key="index">
+        {{
+          item.attachmentFileName
+        }}
+        <i @click="downLoad(item)" class="iconfont icon-xiazai1"></i>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import PublicTitle from '@/components/public_title.vue'
 export default {
   components: {
@@ -218,6 +120,26 @@ export default {
   },
   data () {
     return {
+      teamInfo: null
+    }
+  },
+  created () {
+    this.getDetail()
+  },
+  methods: {
+    ...mapActions(['GET_JOIN_DETAIL', 'GET_FILE_DOWNLOAD']),
+    async getDetail () {
+      const params = {
+        teamNo: this.$route.query.id
+      }
+      const res = await this.GET_JOIN_DETAIL({ params })
+      if (res.result === '0' && res.data) {
+        this.teamInfo = res.data
+      }
+      console.log(res)
+    },
+    async downLoad (file) {
+      window.open(`http://47.103.28.48:8080/match-service/user/teamInfo/dowload/attachment?attachmentId=${file.attachmentId}`)
     }
   }
 }
@@ -245,6 +167,10 @@ export default {
           width: 33%;
           margin-top: 10px;
           font-size: 16px;
+
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
           &:nth-child(n > 3) {
           }
           .item_name {
@@ -275,7 +201,7 @@ export default {
             width: 80px;
             margin-right: 5px;
 
-            color: rgb(51, 51, 51);
+            color: #dc1e32;
             text-align: right;
           }
           .item_detail {
@@ -338,15 +264,19 @@ export default {
     .work_list {
       display: flex;
       justify-content: space-between;
+      flex-wrap: wrap;
 
       padding-top: 30px;
       div {
         width: 33%;
+        margin-top: 10px;
 
         text-align: center;
         color: #dc1e32;
         font-weight: bold;
-        cursor: pointer;
+        .icon-xiazai1 {
+          cursor: pointer;
+        }
       }
     }
   }

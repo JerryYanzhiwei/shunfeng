@@ -73,6 +73,11 @@ export default new Vuex.Store({
       const { data: res } = await axios.get('/user/teamInfo', data)
       return res
     },
+    // 编辑团队信息
+    async PUT_MY_TEAM_INFO ({ commit }, data = {}) {
+      const { data: res } = await axios.put(`/user/teamInfo?instructor=${data.instructor}&instructorPhone=${data.instructorPhone}&teamNo=${data.teamNo}`, data)
+      return res
+    },
     // 团队申请列表
     async GET_TEAM_APPLY_LIST ({ commit }, data = {}) {
       const { data: res } = await axios.get('/user/teamInfo/applyLists', data)
@@ -85,7 +90,7 @@ export default new Vuex.Store({
     },
     // 团队入队审批
     async PUT_TEAM_CHECK ({ commit }, data = {}) {
-      const { data: res } = await axios.put('/user/teamInfo/joinTeam', data)
+      const { data: res } = await axios.put(`/user/teamInfo/joinTeam?teamNo=${data.teamNo}&teamMemberId=${data.teamMemberId}&teamApplyEnum=${data.teamApplyEnum}`)
       return res
     },
     // 移除队员
