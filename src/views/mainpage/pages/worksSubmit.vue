@@ -6,38 +6,50 @@
       <div class="submit_item">
         <div class="submit_left flex_center">作品说明书</div>
         <div class="submit_center">
-          <div class="tip_item">队伍介绍</div>
-          <div class="tip_item">作品描述</div>
-          <div class="tip_item">设计创意说明:明确指出作品的创新关键点</div>
+          <div class="center_left">
+            <div class="tip_item">队伍介绍</div>
+            <div class="tip_item">作品描述</div>
+            <div class="tip_item">设计创意说明:明确指出作品的创新关键点</div>
+          </div>
+          <div class="center_right">
+            <div class="file_item"
+              v-for="(item, index) in file"
+              :key="index">
+              <span>{{item.attachmentFileName}}</span>
+              <!-- <span @click="delFile('', index)" class="del_btn">x</span> -->
+              <i class="iconfont icon-xiazai1 download_btn"
+                @click="download(item.attachmentId)">下载</i>
+            </div>
+          </div>
         </div>
         <div class="submit_right flex_center">
-          <span v-if="file.name">
-            <span>{{file.name}}</span>
-            <span class="del_btn"
-              @click="delFile('')">删除</span>
-          </span>
-          <PublicButton v-else @clickHandle="clickUploadBtn('0')">上传</PublicButton>
-          <form ref="INSTRUCTION" method="POST" enctype="multipart/form-data" id="fileUploadForm">
-            <input type="file" v-show="false" :multiple="true" ref="file0" @change="fileChange">
-          </form>
+          <PublicButton @clickHandle="clickUploadBtn('0')">上传</PublicButton>
+          <input type="file" v-show="false" :multiple="false" ref="file0" @change="fileChange">
         </div>
       </div>
       <div class="submit_item">
         <div class="submit_left flex_center">作品介绍</div>
         <div class="submit_center">
-          <div class="tip_item title">包含以下但不限于:</div>
-          <div class="tip_item">该产品的设计背景和市场现状分析（1-2p）</div>
-          <div class="tip_item">方案展示</div>
-          <div class="tip_item">设计亮点</div>
-          <div class="tip_item">方案的可实施性说明</div>
+          <div class="center_left">
+            <div class="tip_item title">包含以下但不限于:</div>
+            <div class="tip_item">该产品的设计背景和市场现状分析（1-2p）</div>
+            <div class="tip_item">方案展示</div>
+            <div class="tip_item">设计亮点</div>
+            <div class="tip_item">方案的可实施性说明</div>
+          </div>
+          <div class="center_right">
+            <div class="file_item"
+              v-for="(item, index) in file1"
+              :key="index">
+              <span>{{item.attachmentFileName}}</span>
+              <!-- <span @click="delFile('1', index)" class="del_btn">x</span> -->
+              <i class="iconfont icon-xiazai1 download_btn"
+                @click="download(item.attachmentId)">下载</i>
+            </div>
+          </div>
         </div>
         <div class="submit_right flex_center">
-          <span v-if="true">
-            <span>{{file1.name}}xxxxx</span>
-            <span class="del_btn iconfont icon-lajitong"
-              @click="delFile('1')"></span>
-          </span>
-          <PublicButton v-else @clickHandle="clickUploadBtn('1')">上传</PublicButton>
+          <PublicButton @clickHandle="clickUploadBtn('1')">上传</PublicButton>
           <input type="file" v-show="false" :multiple="false" ref="file1" @change="fileChange1">
           <!-- <i class="iconfont icon-lajitong"></i> -->
         </div>
@@ -45,23 +57,30 @@
       <div class="submit_item">
         <div class="submit_left flex_center">作品附件</div>
         <div class="submit_center">
-          <div class="tip_item">作品相关附件</div>
+          <div class="center_left">
+            <div class="tip_item">作品相关附件</div>
+          </div>
+          <div class="center_right">
+            <div class="file_item"
+              v-for="(item, index) in file2"
+              :key="index">
+              <span>{{item.attachmentFileName}}</span>
+              <!-- <span @click="delFile('2', index)" class="del_btn">x</span> -->
+              <i class="iconfont icon-xiazai1 download_btn"
+                @click="download(item.attachmentId)">下载</i>
+            </div>
+          </div>
         </div>
         <div class="submit_right flex_center">
-          <span v-if="file2.name">
-            <span>{{file2.name}}</span>
-            <span class="del_btn"
-              @click="delFile('2')">删除</span>
-          </span>
-          <PublicButton v-else @clickHandle="clickUploadBtn('2')">上传</PublicButton>
-          <input type="file" v-show="false" :multiple="false" ref="file2" @change="fileChange2">
+          <PublicButton @clickHandle="clickUploadBtn('2')">上传</PublicButton>
+          <input type="file" v-show="false" :multiple="true" ref="file2" @change="fileChange2">
         </div>
       </div>
     </div>
     <PublicTitle title="作品进度" />
     <div class="current_progress">
       <span>当前进度</span>
-      <span class="bold">初筛</span>
+      <span class="bold">{{processTxt}}</span>
     </div>
   </div>
 </template>
@@ -77,57 +96,113 @@ export default {
   },
   data () {
     return {
-      file: {
-        file: null,
-        name: ''
-      },
-      file1: {
-        file: null,
-        name: ''
-      },
-      file2: {
-        file: null,
-        name: ''
-      }
+      // 作品说明书
+      file: [],
+      // 作品介绍
+      file1: [],
+      // 作品附件
+      file2: [],
+      processTxt: ''
     }
   },
+  mounted () {
+    this.getData()
+  },
   methods: {
-    ...mapActions(['POST_FILE_UPLOAD']),
+    ...mapActions(['POST_FILE_UPLOAD', 'GET_TEAM_FILE', 'GET_DOWNLOAD_FILE']),
     clickUploadBtn (type) {
       console.log('上传类型', type)
       const ref = `file${type}`
       const dom = this.$refs[ref]
       dom && dom.click()
     },
-    delFile (type) {
+    delFile (type, index) {
       const key = `file${type}`
-      this[key].file = null
-      this[key].name = ''
+      console.log(key, type)
+      type === '2' ? this[key].splice(index, 1) : (this[key] = { name: '', file: null })
     },
     async fileChange (e) {
-      const files = e.target.files
-      const params = new FormData()
-      for (let i = 0; i < files.length; i++) {
-        console.log(files[i])
-        params.append('multipartFile', files[i])
+      const file = e.target.files[0]
+      console.log('file:', file)
+      try {
+        const form = new FormData()
+        form.append('attachmentTypeEnum', 'OPUS_INSTRUCTION_BOOK')
+        form.append('multipartFile', file)
+        const res = await this.POST_FILE_UPLOAD(form)
+        console.log('res:', res)
+        if (res.result === '0' && res.data) {
+          this.getData()
+          console.log('作品说明书上传成功:', res.data)
+        }
+      } catch (e) {
+        console.log(e)
       }
-      params.append('attachmentTypeEnum', 'OPUS_INSTRUCTION_BOOK')
-      const res = await this.POST_FILE_UPLOAD(params)
-      console.log(res, 22222)
+      const dom = this.$refs.file0
+      dom.value = ''
     },
-    fileChange1 (e) {
+    async fileChange1 (e) {
       const file = e.target.files[0]
       console.log('file1:', file)
-      const name = file.name
-      this.file1.file = file
-      this.file1.name = name
+      try {
+        const form = new FormData()
+        form.append('attachmentTypeEnum', 'OPUS_INTRODUCE')
+        form.append('multipartFile', file)
+        const res = await this.POST_FILE_UPLOAD(form)
+        console.log('res:', res)
+        if (res.result === '0' && res.data) {
+          this.getData()
+          console.log('作品介绍上传成功:', res.data)
+        }
+      } catch (e) {
+        console.log(e)
+      }
+      const dom = this.$refs.file1
+      dom.value = ''
     },
-    fileChange2 (e) {
-      const file = e.target.files[0]
-      console.log('file2:', file)
-      const name = file.name
-      this.file2.file = file
-      this.file2.name = name
+    async fileChange2 (e) {
+      const files = e.target.files
+      console.log('file2:', files)
+      try {
+        const form = new FormData()
+        form.append('attachmentTypeEnum', 'OPUS_ATTACHMENT')
+        files.forEach(file => {
+          form.append('multipartFile', file)
+        })
+        const res = await this.POST_FILE_UPLOAD(form)
+        console.log('res:', res)
+        if (res.result === '0' && res.data) {
+          this.getData()
+          console.log('作品附件上传成功:', res.data)
+        }
+      } catch (e) {
+        console.log(e)
+      }
+      const dom = this.$refs.file2
+      dom.value = ''
+    },
+    // 下载附件
+    async download (attachmentId) {
+      this.GET_DOWNLOAD_FILE(attachmentId)
+    },
+    // 查页面数据
+    async getData () {
+      try {
+        const res = await this.GET_TEAM_FILE()
+        if (res.result === '0' && res.data) {
+          console.log(res.data)
+          const process = res.data.teamProgress
+          this.processTxt = process === 0 ? '初选' : process === 1 ? '半决赛' : '决赛'
+          const files = res.data.attachments
+          this.file = []
+          this.file1 = []
+          this.file2 = []
+          files.forEach(file => {
+            const type = file.attachmentType
+            const key = `file${type === 0 ? '' : type === 1 ? '1' : '2'}`
+            type === 2 ? this[key].push(file) : (this[key] = [file])
+          })
+        }
+      } catch (e) {}
     }
   }
 }
@@ -165,12 +240,40 @@ export default {
         border-right: 1px solid #ddd;
       }
       .submit_center {
+        display: flex;
         flex-grow: 1;
-        padding: 20px 40px;
         .tip_item {
           line-height: 28px;
           &.title {
             font-weight: bold;
+          }
+        }
+        .center_left {
+          flex-grow: 1;
+          padding: 20px;
+        }
+        .center_right {
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          flex-flow: row wrap;
+          padding: 20px;
+          width: 320px;
+          height: 100%;
+          border-left: 1px solid #ddd;
+          .file_item {
+            width: 100%;
+          }
+          .del_btn {
+            margin-left: 20px;
+            cursor: pointer;
+            font-size: 24px;
+            color: red;
+          }
+          .download_btn {
+            margin-left: 20px;
+            cursor: pointer;
+            font-size: 20px;
           }
         }
       }
