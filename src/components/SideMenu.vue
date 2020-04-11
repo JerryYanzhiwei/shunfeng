@@ -6,40 +6,54 @@
     mode="vertical"
     :router="true"
     :default-active="$route.path">
-    <el-menu-item
-      v-for="(item, index) in menuData"
-      :key="index"
-      :index="item.path"
-      :route="item.path">{{item.title}}</el-menu-item>
-  </el-menu>
+    <template v-for="(item, index) in menuData">
+      <el-menu-item
+        v-if="item.flag"
+        :key="index"
+        :index="item.path"
+        :route="item.path">{{item.title}}</el-menu-item>
+    </template>
+    </el-menu>
 </template>
 
 <script>
 export default {
   data () {
     return {
-      menuData: [
+    }
+  },
+  computed: {
+    menuData () {
+      return [
         {
           path: '/main/userInfo',
-          title: '我的信息'
+          title: '我的信息',
+          flag: true
         },
         {
           path: '/main/teamCenter',
-          title: '队伍中心'
+          title: '队伍中心',
+          flag: true
         },
         {
           path: '/main/teamInfo',
-          title: '队伍信息'
+          title: '队伍信息',
+          flag: this.userInfo.captainFlag
         },
         {
           path: '/main/applyList',
-          title: '申请列表'
+          title: '申请列表',
+          flag: this.userInfo.captainFlag
         },
         {
           path: '/main/worksSubmit',
-          title: '作品提交'
+          title: '作品提交',
+          flag: this.userInfo.captainFlag
         }
       ]
+    },
+    userInfo () {
+      return this.getUser()
     }
   }
 }

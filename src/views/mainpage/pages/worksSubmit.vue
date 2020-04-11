@@ -20,6 +20,7 @@
               <i class="iconfont icon-xiazai1 download_btn"
                 @click="download(item.attachmentId)"></i>
             </div>
+            <span v-if="!file.length">暂无数据</span>
           </div>
         </div>
         <div class="submit_right flex_center">
@@ -46,6 +47,7 @@
               <i class="iconfont icon-xiazai1 download_btn"
                 @click="download(item.attachmentId)"></i>
             </div>
+            <span v-if="!file1.length">暂无数据</span>
           </div>
         </div>
         <div class="submit_right flex_center">
@@ -69,6 +71,7 @@
               <i class="iconfont icon-xiazai1 download_btn"
                 @click="download(item.attachmentId)"></i>
             </div>
+            <span v-if="!file2.length">暂无数据</span>
           </div>
         </div>
         <div class="submit_right flex_center">
@@ -80,7 +83,7 @@
     <PublicTitle title="作品进度" />
     <div class="current_progress">
       <span>当前进度</span>
-      <span class="bold">{{processTxt}}</span>
+      <span class="bold process">{{processTxt}}</span>
     </div>
   </div>
 </template>
@@ -297,12 +300,12 @@ export default {
     }
   }
   .current_progress {
-    display: flex;
-    justify-content: space-between;
-
     margin-top: 30px;
 
     font-size: 16px;
+    .process {
+      margin-left: 10%;
+    }
   }
 }
 </style>

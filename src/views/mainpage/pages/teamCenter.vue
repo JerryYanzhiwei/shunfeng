@@ -1,7 +1,10 @@
 <template>
-  <div v-if="joinedData.length && applyList.length" class="team_cener_container">
+  <div v-if="joinedData.length || applyList.length" class="team_cener_container">
     <PublicTitle title="已加入" />
     <div class="team_contain added_contain">
+      <div v-if="!joinedData.length" class="no_data">
+        暂无数据
+      </div>
       <div
         @click="toDetail(item)"
         v-for="(item, index) in joinedData" :key="index"
@@ -47,11 +50,23 @@
         </div>
       </div>
     </div>
+    <el-pagination
+      small
+      :page-size="joinPage.pageSize"
+      @current-change="joinPageChange"
+      layout="prev, pager, next"
+      :total="joinPage.total">
+    </el-pagination>
     <PublicTitle title="申请列表" />
     <div class="team_contain">
+      <div v-if="!applyList.length" class="no_data">
+        暂无数据
+      </div>
       <div
         v-for="(item, index) in applyList" :key="index"
         class="team_item apply_contain">
+        <i v-if="item.applyState === 2" class="apply_state">已拒绝</i>
+        <i v-if="item.applyState === 0" class="apply_state">申请中</i>
         <div class="team_name">
           <i class="iconfont icon-tuandui"></i>
           {{item.teamName}}
@@ -93,6 +108,13 @@
         </div>
       </div>
     </div>
+    <el-pagination
+      small
+      :page-size="applyPage.pageSize"
+      @current-change="applyPageChange"
+      layout="prev, pager, next"
+      :total="applyPage.total">
+    </el-pagination>
   </div>
 </template>
 
@@ -108,6 +130,8 @@ export default {
     return {
       joinedData: [],
       applyList: [],
+      joinPage: {},
+      applyPage: {},
       joinedForm: {
         pageNo: 1,
         pageSize: 12,
@@ -126,11 +150,25 @@ export default {
   },
   methods: {
     ...mapActions(['GET_TEMP_CENTER']),
+    joinPageChange (data) {
+      this.joinedForm.pageNo = data
+      this.getApplyList(this.joinedForm, 1)
+    },
+    applyPageChange (data) {
+      this.applyedForm.pageNo = data
+      this.getApplyList(this.applyedForm, 2)
+    },
     // 查询申请列表 type 1: 已加入 2: 拒绝/申请中
     async getApplyList (params, type) {
       const res = await this.GET_TEMP_CENTER(params)
-      type === 1 && (this.joinedData = res.data.records)
-      type === 2 && (this.applyList = res.data.records)
+      if (type === 1) {
+        this.joinedData = res.data.records
+        this.joinPage = res.data
+      }
+      if (type === 2) {
+        this.applyList = res.data.records
+        this.applyPage = res.data
+      }
       console.log(res)
     },
     // 跳转队伍详情
@@ -148,6 +186,11 @@ export default {
 
 <style lang="scss" scoped>
   .team_cener_container {
+    .no_data {
+      width: 100%;
+      text-align: center;
+      padding: 20px 0;
+    }
     .iconfont {
       font-size: 18px;
     }
@@ -169,7 +212,14 @@ export default {
         border-radius: 10px;
         cursor: pointer;
         &.apply_contain {
+          position: relative;
           cursor: default;
+
+          .apply_state {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+          }
         }
         transition: all .2s linear;
         &:nth-child(3n + 1) {

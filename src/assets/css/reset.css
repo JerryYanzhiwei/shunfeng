@@ -89,3 +89,14 @@ html, body, #app {
   width: 100%;
   z-index: 1;
 }
+
+.el-pagination .btn-next, .el-pagination .btn-prev {
+  background-color: transparent!important;
+}
+.el-pager li {
+  background-color: transparent!important;
+}
+.el-pagination {
+  margin-top: 20px;
+  text-align: right;
+}

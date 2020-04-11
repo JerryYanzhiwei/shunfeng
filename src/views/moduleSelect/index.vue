@@ -181,7 +181,7 @@ export default {
     this.getDirection()
   },
   methods: {
-    ...mapActions(['POST_CREATE_TEAM', 'GET_DIRECTION']),
+    ...mapActions(['POST_CREATE_TEAM', 'GET_DIRECTION', 'GET_USER_INFO']),
     async getDirection () {
       const res = await this.GET_DIRECTION()
       this.directionArr = res.data
@@ -210,6 +210,8 @@ export default {
           const params = this.formData
           const res = await this.POST_CREATE_TEAM(params)
           if (res.result === '0' && res.data) {
+            const result = await this.GET_USER_INFO()
+            if (result.result === '0') sessionStorage.setItem('userInfo', JSON.stringify(result.data))
             this.$router.push('/teamhall')
           }
         }

@@ -42,7 +42,9 @@
             </div>
             <div class="item_detail">
               <div class="title">招募需求: </div>
-              <div class="detail">{{item.recruitmentDemand}}</div>
+              <el-tooltip class="item" effect="dark" :content="item.teamIntroduction" placement="top-start">
+                <div class="detail">{{item.recruitmentDemand}}</div>
+              </el-tooltip>
             </div>
             <div class="item_detail">
               <div class="title">团队介绍: </div>
@@ -55,10 +57,23 @@
           </div>
           <div class="btn_contain">
             <span class="limit_count">{{item.memberNum}}/5</span>
-            <el-button @click="joinTeam(item.teamNo)" type="danger" size="mini">申请加入</el-button>
+            <el-button :disabled="item.applyState === 1 || item.applyState === 0" @click="joinTeam(item.teamNo)" type="danger" size="mini">
+              {{
+                item.applyState === 1 && '已加入' ||
+                item.applyState === 0 && '申请中' ||
+                '申请加入'
+              }}
+            </el-button>
           </div>
         </div>
       </div>
+      <el-pagination
+        small
+        :page-size="pageData.pageSize"
+        @current-change="pageChange"
+        layout="prev, pager, next"
+        :total="pageData.total">
+      </el-pagination>
     </div>
     <el-dialog
       width="30%"
@@ -95,7 +110,7 @@ export default {
       dialogVisible: false,
       // hall data
       hallData: {
-        pageNo: 0,
+        pageNo: 1,
         pageSize: 12,
         province: null,
         teamNo: null
@@ -104,7 +119,8 @@ export default {
       joinData: {
         leaveMesseges: '',
         teamNo: ''
-      }
+      },
+      pageData: {}
     }
   },
   created () {
@@ -112,12 +128,18 @@ export default {
   },
   methods: {
     ...mapActions(['GET_HALL_DATA', 'POST_APPLY_TEAM']),
+    pageChange (data) {
+      this.hallData.pageNo = data
+      this.getHallData()
+      console.log(data)
+    },
     // 获取大厅消息
     async getHallData () {
       const params = this.hallData
       const res = await this.GET_HALL_DATA({ params })
       if (res.result === '0' && res.data) {
-        this.teamList = this.teamList.concat(res.data.records)
+        this.pageData = res.data
+        this.teamList = res.data.records
       }
     },
     // 弹框关闭
@@ -136,8 +158,9 @@ export default {
         const res = await this.POST_APPLY_TEAM(params)
         if (res.result === '0' && res.data) {
           this.$message.success('申请成功')
+          this.getHallData()
+          this.dialogVisible = false
         }
-        this.dialogVisible = false
       } catch (err) {
         console.log(err)
         this.dialogVisible = false
@@ -213,24 +236,16 @@ export default {
 
                 text-align: right;
 
-                text-overflow: -o-ellipsis-lastline;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                display: -webkit-box;
-                -webkit-line-clamp: 1;
-                line-clamp: 1;
-                -webkit-box-orient: vertical;
+                white-space: nowrap;
               }
               .detail {
                 width: 78%;
 
-                text-overflow: -o-ellipsis-lastline;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                line-clamp: 2;
-                -webkit-box-orient: vertical;
+                white-space: nowrap;
               }
             }
           }

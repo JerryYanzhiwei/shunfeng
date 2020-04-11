@@ -54,13 +54,13 @@ axios.interceptors.response.use(
     const msg = error.response.data.msg
     const code = error.response.status
     console.log(error.response)
+    if (code === 401) {
+      router.push('/')
+    }
     Message({
       message: msg,
       type: 'error'
     })
-    if (code === 401) {
-      router.push('/')
-    }
     return Promise.reject(error)
   }
 )

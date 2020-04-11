@@ -2,6 +2,9 @@
   <div class="apply_list_container">
     <PublicTitle title="申请列表" />
     <div class="apply_contain">
+      <div v-if="!applyList.length" class="no_data">
+        暂无数据
+      </div>
       <!-- 队伍成员 -->
       <div class="member_item" v-for="(item, index) in applyList" :key="index">
         <div class="member_name">
@@ -34,8 +37,9 @@
             <span class="detail">{{item.leaveMessege}}</span>
           </p>
         </div>
-        <div @click="greenApply(item)" class="btn_contain">
-          同意入队
+        <div class="btn_contain">
+          <span @click="greenApply(item, 2)">拒绝</span>
+          <span @click="greenApply(item, 1)">同意入队</span>
         </div>
       </div>
     </div>
@@ -69,9 +73,9 @@ export default {
       console.log(res)
     },
     // 入队审批
-    async greenApply (data) {
+    async greenApply (data, type) {
       const res = await this.PUT_TEAM_CHECK({
-        teamApplyEnum: 1,
+        teamApplyEnum: type,
         teamMemberId: data.teamMemberId,
         teamNo: this.teamInfo.teamNo
       })
@@ -92,6 +96,11 @@ export default {
 
 <style lang="scss" scoped>
   .apply_list_container {
+    .no_data {
+      width: 100%;
+      text-align: center;
+      padding: 40px 0;
+    }
     .iconfont {
       font-size: 13px;
     }
@@ -133,14 +142,22 @@ export default {
           }
         }
         .btn_contain {
+          display: flex;
+
           height: 50px;
           line-height: 50px;
-          text-align: center;
 
-          background: #dc1e32;
           color: #fff;
           font-size: 14px;
-          cursor: pointer;
+          span {
+            width: 50%;
+            text-align: center;
+            background: #dc1e32;
+            cursor: pointer;
+            &:hover {
+              background: #e24454;
+            }
+          }
         }
       }
     }
