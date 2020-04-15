@@ -20,6 +20,10 @@
             <div class="detail">{{item.captain}}</div>
           </div>
           <div class="item_detail">
+            <div class="title">电话: </div>
+            <div class="detail">{{item.captainPhone}}</div>
+          </div>
+          <div class="item_detail">
             <div class="title">赛区: </div>
             <div class="detail">{{getZone(item.matchZone)}}</div>
           </div>
@@ -78,6 +82,10 @@
             <div class="detail">{{item.captain}}</div>
           </div>
           <div class="item_detail">
+            <div class="title">电话: </div>
+            <div class="detail">{{item.captainPhone}}</div>
+          </div>
+          <div class="item_detail">
             <div class="title">赛区: </div>
             <div class="detail">{{getZone(item.matchZone)}}</div>
           </div>
@@ -105,6 +113,9 @@
               </div>
             </el-tooltip>
           </div>
+          <div v-if="item.applyState === 2" class="btn_contain">
+            <el-button @click="reJoin(item)" type="danger" size="mini">重新申请</el-button>
+          </div>
         </div>
       </div>
     </div>
@@ -115,6 +126,23 @@
       layout="prev, pager, next"
       :total="applyPage.total">
     </el-pagination>
+    <el-dialog
+      width="30%"
+      :visible="dialogVisible"
+      :before-close="handleClose"
+      title="留言板"
+      >
+      <el-input
+        rows="3"
+        resize="none"
+        type="textarea"
+        v-model="joinData.leaveMesseges"
+        ></el-input>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="danger" @click="submitApply">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -132,6 +160,7 @@ export default {
       applyList: [],
       joinPage: {},
       applyPage: {},
+      dialogVisible: false,
       joinedForm: {
         pageNo: 1,
         pageSize: 12,
@@ -141,6 +170,10 @@ export default {
         pageNo: 1,
         pageSize: 12,
         teamApplys: [0, 2]
+      },
+      joinData: {
+        leaveMesseges: '',
+        teamNo: ''
       }
     }
   },
@@ -149,7 +182,25 @@ export default {
     this.getApplyList(this.applyedForm, 2)
   },
   methods: {
-    ...mapActions(['GET_TEMP_CENTER']),
+    ...mapActions(['GET_TEMP_CENTER', 'POST_APPLY_TEAM']),
+    // 弹框关闭
+    handleClose (done) {
+      this.dialogVisible = false
+    },
+    async submitApply () {
+      const params = this.joinedData
+      const res = await this.POST_APPLY_TEAM(params)
+      if (res.result === '0' && res.data) {
+        this.$message.success('申请成功')
+        this.getApplyList(this.joinedForm, 1)
+        this.getApplyList(this.applyedForm, 2)
+        this.dialogVisible = false
+      }
+    },
+    reJoin (data) {
+      this.joinedData.teamNo = data.teamNo
+      this.dialogVisible = true
+    },
     joinPageChange (data) {
       this.joinedForm.pageNo = data
       this.getApplyList(this.joinedForm, 1)
@@ -276,6 +327,10 @@ export default {
               line-clamp: 2;
               -webkit-box-orient: vertical;
             }
+          }
+
+          .btn_contain {
+            text-align: right;
           }
         }
       }

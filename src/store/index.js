@@ -102,7 +102,7 @@ export default new Vuex.Store({
      * 作品方向
      */
     async GET_DIRECTION ({ commit }, data = {}) {
-      const { data: res } = await axios.get('/user/direction')
+      const { data: res } = await axios.get('/user/categorys')
       return res
     },
     /**

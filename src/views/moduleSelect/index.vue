@@ -61,6 +61,22 @@
           </el-select>
         </el-form-item>
         <el-form-item
+          prop="catagory"
+          label="分类"
+          >
+          <el-select
+            v-model="formData.catagory"
+            @change="selecClass"
+            placeholder="请选择作品方向">
+            <el-option
+              v-for="item in classArr"
+              :key="item.categoryId"
+              :label="item.categoryName"
+              :value="item.categoryId">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item
           prop="opusDirection"
           label="作品方向"
           >
@@ -139,6 +155,7 @@ export default {
       dialogVisible: false,
       matchArr: jsonData,
       provinceArr: [],
+      classArr: [],
       directionArr: [],
       subjectArr: [],
       formData: {
@@ -147,6 +164,7 @@ export default {
         matchZone: '',
         instructor: '',
         instructorPhone: '',
+        catagory: '',
         opusDirection: '',
         subject: '',
         recruitmentDemand: '',
@@ -160,6 +178,9 @@ export default {
           { required: true, message: '', trigger: 'blur' }
         ],
         matchZone: [
+          { required: true, message: '', trigger: 'blur' }
+        ],
+        catagory: [
           { required: true, message: '', trigger: 'blur' }
         ],
         opusDirection: [
@@ -184,7 +205,13 @@ export default {
     ...mapActions(['POST_CREATE_TEAM', 'GET_DIRECTION', 'GET_USER_INFO']),
     async getDirection () {
       const res = await this.GET_DIRECTION()
-      this.directionArr = res.data
+      this.classArr = res.data
+    },
+    selecClass (data) {
+      this.formData.subject = ''
+      this.formData.opusDirection = ''
+      const arr = this.classArr.filter((val) => val.categoryId === data)
+      this.directionArr = arr[0].directions
     },
     selecDirect (data) {
       this.formData.subject = ''

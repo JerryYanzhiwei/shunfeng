@@ -68,7 +68,8 @@
               size="mini"
               >
             </el-input>
-            <span @click="getRegistryCode" class="get_code">获取验证码</span>
+            <span v-if="!showCount" @click="getRegistryCode" class="get_code">获取验证码</span>
+            <span v-if="showCount" class="get_code">{{count}}</span>
           </el-form-item>
           <!-- 密码 -->
           <el-form-item
@@ -144,6 +145,9 @@ import { mapActions } from 'vuex'
 export default {
   data () {
     return {
+      showCount: false,
+      count: 0,
+      timer: null,
       // true: 登录  false: 注册
       isLogin: true,
       // false: 密码登录  true: 验证码登录
@@ -217,7 +221,18 @@ export default {
       })
       if (res.result === '0' && res.data) {
         this.$message.success('发送成功')
-        console.log('获取验证码', res.data)
+        this.count = 60
+        this.showCount = true
+        this.timer = setInterval(() => {
+          this.count--
+          console.log(this.count, 111)
+          if (this.count === 0) {
+            clearInterval(this.timer)
+            this.timer = null
+            this.showCount = false
+            this.count = 60
+          }
+        }, 1000)
       }
     },
     // 注册账号
@@ -342,6 +357,8 @@ export default {
         position: absolute;
         right: 60px;
         top: 2px;
+        width: 60px;
+        text-align: center;
 
         font-size: 12px;
         color: #409EFF;

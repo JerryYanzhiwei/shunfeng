@@ -4,6 +4,31 @@
       <MainHeader></MainHeader>
     </el-header>
     <div class="team_container">
+      <div class="fitler_contain">
+        <div>
+          <span>
+            队伍编号:
+            <el-input v-model="hallData.teamNo" size="mini"></el-input>
+          </span>
+          <span>
+            省份:
+            <el-select
+              size="mini"
+              v-model="hallData.province"
+              placeholder="">
+              <el-option
+                v-for="item in provinceData"
+                :key="item.code"
+                :label="item.city"
+                :value="item.code">
+              </el-option>
+            </el-select>
+          </span>
+        </div>
+        <div>
+          <el-button @click="search" size="mini">搜索</el-button>
+        </div>
+      </div>
       <PublicTitle title="队伍列表" />
       <div class="team_contain">
         <div v-for="(item, index) in teamList" :key="index" class="team_item">
@@ -99,6 +124,8 @@
 import { mapActions } from 'vuex'
 import PublicTitle from '@/components/public_title.vue'
 import MainHeader from '@/components/MainHeader.vue'
+
+import jsonData from '@/config/province.js'
 export default {
   components: {
     PublicTitle,
@@ -120,18 +147,35 @@ export default {
         leaveMesseges: '',
         teamNo: ''
       },
-      pageData: {}
+      pageData: {},
+      provinceData: []
     }
   },
   created () {
     this.getHallData()
+    this.getProvinces()
   },
   methods: {
     ...mapActions(['GET_HALL_DATA', 'POST_APPLY_TEAM']),
+
+    getProvinces () {
+      let arr = []
+      jsonData.map(item => {
+        arr = arr.concat(item.province)
+        console.log(item.province)
+      })
+      this.provinceData = arr
+    },
+
     pageChange (data) {
       this.hallData.pageNo = data
       this.getHallData()
       console.log(data)
+    },
+    // 搜索
+    async search () {
+      this.hallData.pageNo = 1
+      this.getHallData()
     },
     // 获取大厅消息
     async getHallData () {
@@ -182,7 +226,13 @@ export default {
     .team_container {
       width: 1200px;
       margin: 0 auto;
-      padding-top: 110px;
+      padding-top: 90px;
+      .fitler_contain {
+        display: flex;
+        justify-content: space-between;
+
+        margin-bottom: 30px;
+      }
       .team_contain {
         display: flex;
         flex-wrap: wrap;
