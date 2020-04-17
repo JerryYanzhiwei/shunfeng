@@ -1,6 +1,6 @@
 <template>
   <div v-if="joinedData.length || applyList.length" class="team_cener_container">
-    <PublicTitle title="已加入" />
+    <PublicTitle title="已加入" color="#fff" />
     <div class="team_contain added_contain">
       <div v-if="!joinedData.length" class="no_data">
         暂无数据
@@ -61,7 +61,7 @@
       layout="prev, pager, next"
       :total="joinPage.total">
     </el-pagination>
-    <PublicTitle title="申请列表" />
+    <PublicTitle title="申请列表" color="#fff" />
     <div class="team_contain">
       <div v-if="!applyList.length" class="no_data">
         暂无数据
@@ -73,7 +73,7 @@
         <i v-if="item.applyState === 0" class="apply_state">申请中</i>
         <div class="team_name">
           <i class="iconfont icon-tuandui"></i>
-          {{item.teamName}}
+          <b class="name">{{item.teamName}}</b>
           <span>{{item.teamNo}}</span>
         </div>
         <div class="item_contain">
@@ -271,6 +271,7 @@ export default {
             position: absolute;
             top: 10px;
             left: 10px;
+            color: #fff;
           }
         }
         transition: all .2s linear;

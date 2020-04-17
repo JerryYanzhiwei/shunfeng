@@ -1,7 +1,7 @@
 <template>
   <div class="module_select_container"
     :style="{
-      background: `url(${bg}) no-repeat center`,
+      background: `url(${bg}) repeat center`,
       backgroundSize: 'cover'
     }">
     <el-header class="main_header">

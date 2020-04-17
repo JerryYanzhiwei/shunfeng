@@ -1,7 +1,7 @@
 <template>
   <div class="login_container"
     :style="{
-      background: `url(${bg}) no-repeat center`,
+      background: `url(${bg}) repeat center`,
       backgroundSize: 'cover'
     }">
     <!-- 登录 -->
