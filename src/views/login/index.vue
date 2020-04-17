@@ -1,5 +1,9 @@
 <template>
-  <div class="login_container">
+  <div class="login_container"
+    :style="{
+      background: `url(${bg}) no-repeat center`,
+      backgroundSize: 'cover'
+    }">
     <!-- 登录 -->
     <div v-if="isLogin" class="login_content">
       <p class="login_txt">登录</p>
@@ -142,9 +146,11 @@
 
 <script>
 import { mapActions } from 'vuex'
+import bg from '@/assets/bg.png'
 export default {
   data () {
     return {
+      bg,
       showCount: false,
       count: 0,
       timer: null,
@@ -267,6 +273,7 @@ export default {
 
       box-shadow: 0 0 3px 3px #eee;
       border-radius: 8px;
+      background-color: #fff;
       .login_txt {
         text-align: center;
         font-size: 18px;

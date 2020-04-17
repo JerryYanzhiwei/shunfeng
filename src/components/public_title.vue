@@ -1,5 +1,5 @@
 <template>
-  <p class="public_title">{{title}}</p>
+  <p class="public_title" :style="{ color }">{{title}}</p>
 </template>
 
 <script>
@@ -8,6 +8,11 @@ export default {
     title: {
       type: String,
       required: true,
+      default: ''
+    },
+    color: {
+      type: String,
+      required: false,
       default: ''
     }
   }

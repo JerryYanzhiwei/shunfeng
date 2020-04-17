@@ -7,35 +7,37 @@
       </div>
       <!-- 队伍成员 -->
       <div class="member_item" v-for="(item, index) in applyList" :key="index">
-        <div class="member_name">
-          <i class="iconfont icon-shouhuoren"></i>
-          {{item.name}}
-        </div>
-        <div class="item_contain">
-          <p class="item_detail">
-            <span class="title">手机号: </span>
-            <span class="detail">{{item.phone}}</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">邮箱: </span>
-            <span class="detail">{{item.email}}</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">学校: </span>
-            <span class="detail">{{item.school}}</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">专业: </span>
-            <span class="detail">{{item.profession}}</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">年级: </span>
-            <span class="detail">{{item.grade}}</span>
-          </p>
-          <p class="item_detail">
-            <span class="title">留言: </span>
-            <span class="detail">{{item.leaveMessege}}</span>
-          </p>
+        <div class="member_header">
+          <div class="member_name">
+            <i class="iconfont icon-shouhuoren"></i>
+            <span>{{item.name}}</span>
+          </div>
+          <div class="item_contain">
+            <p class="item_detail">
+              <span class="title">手机号: </span>
+              <span class="detail">{{item.phone}}</span>
+            </p>
+            <p class="item_detail">
+              <span class="title">邮箱: </span>
+              <span class="detail">{{item.email}}</span>
+            </p>
+            <p class="item_detail">
+              <span class="title">学校: </span>
+              <span class="detail">{{item.school}}</span>
+            </p>
+            <p class="item_detail">
+              <span class="title">专业: </span>
+              <span class="detail">{{item.profession}}</span>
+            </p>
+            <p class="item_detail">
+              <span class="title">年级: </span>
+              <span class="detail">{{item.grade}}</span>
+            </p>
+            <p class="item_detail">
+              <span class="title">留言: </span>
+              <span class="detail">{{item.leaveMessege}}</span>
+            </p>
+          </div>
         </div>
         <div class="btn_contain">
           <span @click="greenApply(item, 2)">拒绝</span>
@@ -113,9 +115,13 @@ export default {
         overflow: hidden;
         margin-left: 3.3%;
 
-        background-color: #fff;
+        background-color: $card_bg_color;
         border-radius: 10px;
         transition: all .2s linear;
+        border: 2px solid $border_color;
+        .member_header {
+          border-bottom: 1px solid $border_color;
+        }
         &:nth-child(3n + 1) {
           margin-left: 0;
         }
@@ -130,15 +136,21 @@ export default {
           text-align: center;
           font-size: 16px;
           font-weight: bold;
+          i {
+            color: #fff;
+          }
+          span {
+            color: $border_color;
+          }
         }
         .item_contain {
           padding: 0 20px;
 
           .item_detail {
-            margin-bottom: 10px;
+            padding-bottom: 10px;
 
             font-size: 14px;
-            color: #666;
+            color: #fff;
           }
         }
         .btn_contain {
@@ -152,10 +164,10 @@ export default {
           span {
             width: 50%;
             text-align: center;
-            background: #dc1e32;
+            // background: #dc1e32;
             cursor: pointer;
             &:hover {
-              background: #e24454;
+              background: $border_color;
             }
           }
         }

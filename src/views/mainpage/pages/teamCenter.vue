@@ -11,7 +11,7 @@
         class="team_item">
         <div class="team_name">
           <i class="iconfont icon-tuandui"></i>
-          {{item.teamName}}
+          <b class="name">{{item.teamName}}</b>
           <span>{{item.teamNo}}</span>
         </div>
         <div class="item_contain">
@@ -259,7 +259,8 @@ export default {
         overflow: hidden;
         margin-left: 3.3%;
 
-        background-color: #fff;
+        background-color: $card_bg_color;
+        border: 2px solid $border_color;
         border-radius: 10px;
         cursor: pointer;
         &.apply_contain {
@@ -287,10 +288,16 @@ export default {
           text-align: center;
           font-size: 16px;
           font-weight: bold;
+          i {
+            color: #fff;
+          }
           span {
             font-size: 12px;
             font-weight: normal;
-            color: #dc1e32;
+            color: #fff;
+          }
+          .name {
+            color: $border_color;
           }
         }
         .item_contain {
@@ -301,7 +308,7 @@ export default {
             margin-bottom: 15px;
 
             font-size: 14px;
-            color: #666;
+            color: #fff;
             .title {
               width: 30%;
               padding-right: 5px;
