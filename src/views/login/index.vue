@@ -37,7 +37,7 @@
     <!-- 注册 -->
     <div v-else class="registry_content">
       <p class="registry_txt">
-        <span @click="isLogin = true">返回登录</span>
+        <span v-if="deviceType === 1" @click="isLogin = true">返回登录</span>
         注册
       </p>
       <div class="login_form_contain">
@@ -144,6 +144,16 @@
         <el-button @click="submitRegistry" size="mini">注册</el-button>
       </div>
     </div>
+    <div v-if="false" class="prize_contain">
+      <p class="luck_draw_txt">点击抽奖</p>
+      <div class="prize_items">
+        <div @click="touchPrize" class="prize_detail" v-for="(item, index) in [1, 2, 3]" :key="index">
+          <img class="prize_cover front" :src="prizeCover" alt="">
+          <img class="prize_cover back" :src="prizeBack" alt="">
+          <img class="hidden" :src="prizeCover" alt="">
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -154,11 +164,17 @@ export default {
   data () {
     return {
       logo: require('../../assets/images/title.jpg'),
+      prizeCover: require('../../assets/images/cover1.png'),
+      prizeBack: require('../../assets/images/cover2.png'),
       bg,
       showCount: false,
       count: 0,
       timer: null,
       deviceType: null, // 1: PC 2: phone
+      // 是否可抽奖
+      canDraw: true,
+      // 抽奖弹框
+      drawVisibel: true,
       // true: 登录  false: 注册
       isLogin: true,
       // false: 密码登录  true: 验证码登录
@@ -212,6 +228,17 @@ export default {
   },
   methods: {
     ...mapActions(['login', 'POST_GET_CODE', 'POST_REGISTRY']),
+    // 抽奖
+    touchPrize ($el) {
+      if (this.canDraw) {
+        $el.target.style.transform = 'rotateY(-180deg)'
+        $el.target.nextSibling.style.transform = 'rotateY(-360deg)'
+        this.canDraw = false
+        setTimeout(() => {
+          location.reload()
+        }, 3000)
+      }
+    },
     // 密码登录
     async passwordLogin () {
       const res = await this.login(this.loginForm)
@@ -262,11 +289,11 @@ export default {
               this.$alert('注册成功, 请在电脑中继续操作', 'TIP', {
                 confirmButtonText: '确定',
                 callback: action => {
-                  location.reload()
+                  this.drawVisibel = true
                 }
               })
             } else {
-              location.reload()
+              this.drawVisibel = true
             }
           }
           console.log('通过', res)
@@ -362,6 +389,65 @@ export default {
         }
       }
     }
+    .prize_contain {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      background-color: rgba(0, 0, 0, .8);
+      .luck_draw_txt {
+        margin-bottom: 10%;
+
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+      }
+      .prize_items {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+
+        width: 100%;
+        .prize_detail {
+          position: relative;
+          width: 20%;
+          perspective: 500;
+          img.prize_cover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: all 1s;
+            backface-visibility: hidden;
+            perspective: 1000;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            height: auto;
+          }
+          .hidden {
+            width: 100%;
+            height: auto;
+            margin-bottom: 10%;
+            visibility: hidden;
+          }
+          .back {
+            transform: rotateY(-180deg);
+          }
+          // &:hover .front {
+          //   transform: rotateY(-180deg);
+          // }
+          // &:hover .back {
+          //   transform: rotateY(-360deg);
+          // }
+        }
+      }
+    }
     .btn_contain {
       margin-top: 15px;
       text-align: center;
@@ -376,12 +462,16 @@ export default {
       width: 100%;
       height: 100%;
       box-shadow: unset;
+      border-radius: 0;
     }
     .registry_content .el-input--mini {
       width: 70%;
     }
     .login_form_contain .el-form-item .get_code {
       right: 6%;
+    }
+    .login_container .prize_contain .prize_items .prize_detail {
+      width: 40%;
     }
   }
 </style>
