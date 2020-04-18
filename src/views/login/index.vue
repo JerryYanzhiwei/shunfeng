@@ -5,7 +5,7 @@
       backgroundSize: 'cover'
     }">
     <!-- 登录 -->
-    <div v-if="isLogin" class="login_content">
+    <div v-if="isLogin && deviceType === 1" class="login_content">
       <div class="login_top">
         <img :src="logo" alt="">
       </div>
@@ -158,6 +158,7 @@ export default {
       showCount: false,
       count: 0,
       timer: null,
+      deviceType: null, // 1: PC 2: phone
       // true: 登录  false: 注册
       isLogin: true,
       // false: 密码登录  true: 验证码登录
@@ -205,6 +206,9 @@ export default {
         ]
       }
     }
+  },
+  mounted () {
+    this.deviceType = document.body.clientWidth > 500 ? 1 : 2
   },
   methods: {
     ...mapActions(['login', 'POST_GET_CODE', 'POST_REGISTRY']),
