@@ -1,6 +1,6 @@
 <template>
   <div v-if="teamInfo" class="team_info_container">
-    <PublicTitle title="队伍信息" />
+    <PublicTitle color="#fff" title="队伍信息" />
     <div class="leader_contain">
       <div class="leader_top">
         <div class="item">
@@ -67,7 +67,7 @@
         </div>
       </div> -->
     </div>
-    <PublicTitle title="队伍成员" />
+    <PublicTitle color="#fff" title="队伍成员" />
     <div class="member_contain">
       <!-- 队伍成员 -->
       <div v-for="(item, index) in teamInfo.teamMembers" :key="index" class="member_item">
@@ -99,7 +99,7 @@
         </div>
       </div>
     </div>
-    <PublicTitle title="作品列表" />
+    <PublicTitle color="#fff" title="作品列表" />
     <div class="work_list">
       <div v-for="(item, index) in teamInfo.attachments" :key="index">
         {{
@@ -156,7 +156,10 @@ export default {
       padding: 20px 0;
 
       background: white;
-      box-shadow: 1px 2px 5px 1px #D3D3D3;
+      box-shadow: 1px 2px 5px 1px $border_color;
+      border: 2px solid $border_color;
+      background-color: $card_bg_color;
+      color: #fff;
       .leader_top {
         display: flex;
         flex-wrap: wrap;
@@ -179,11 +182,11 @@ export default {
             width: 120px;
             margin-right: 5px;
 
-            color: rgb(51, 51, 51);
+            color: #fff;
             text-align: right;
           }
           .item_detail {
-            color: rgb(51, 51, 51);
+            color: #fff;
           }
         }
       }
@@ -221,9 +224,11 @@ export default {
         overflow: hidden;
         margin-left: 3.3%;
 
-        background-color: #fff;
+        background-color: $card_bg_color;
+        border: 2px solid $border_color;
         border-radius: 10px;
         transition: all .2s linear;
+        color: #fff;
         &:nth-child(3n + 1) {
           margin-left: 0;
         }
@@ -246,7 +251,7 @@ export default {
             margin-bottom: 10px;
 
             font-size: 14px;
-            color: #666;
+            color: #fff;
           }
         }
         .btn_contain {
