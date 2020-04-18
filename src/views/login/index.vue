@@ -2,6 +2,9 @@
   <div class="login_container">
     <!-- 登录 -->
     <div v-if="isLogin" class="login_content">
+      <div class="login_top">
+        <img :src="logo" alt="">
+      </div>
       <p class="login_txt">登录</p>
       <div class="form_item">
         <span class="label_title">手机号</span>
@@ -145,6 +148,7 @@ import { mapActions } from 'vuex'
 export default {
   data () {
     return {
+      logo: require('../../assets/images/title.jpg'),
       showCount: false,
       count: 0,
       timer: null,
@@ -267,6 +271,15 @@ export default {
 
       box-shadow: 0 0 3px 3px #eee;
       border-radius: 8px;
+      .login_top {
+        margin-bottom: 30px;
+        text-align: center;
+        img {
+          width: 100%;
+          height: auto;
+          border-radius: 8px;
+        }
+      }
       .login_txt {
         text-align: center;
         font-size: 18px;
@@ -332,6 +345,23 @@ export default {
     .btn_contain {
       margin-top: 15px;
       text-align: center;
+    }
+  }
+  @media screen and (max-width: 500px) {
+    .login_container .login_content {
+      box-shadow: unset;
+      width: 100%;
+    }
+    .login_container .registry_content {
+      width: 100%;
+      height: 100%;
+      box-shadow: unset;
+    }
+    .registry_content .el-input--mini {
+      width: 70%;
+    }
+    .login_form_contain .el-form-item .get_code {
+      right: 6%;
     }
   }
 </style>

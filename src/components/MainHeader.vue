@@ -1,6 +1,9 @@
 <template>
   <div class="main_header_container">
-    <div class="left_txt">“顺丰杯”物流创新设计大赛</div>
+    <div class="left_txt">
+      <img :src="logo" alt="">
+      物流创新设计大赛
+    </div>
     <div class="right">
       <span @click="$router.push('/main')">{{userData.name}}</span>
       <div class="exit_btn"
@@ -14,6 +17,11 @@ export default {
   computed: {
     userData () {
       return this.getUser()
+    }
+  },
+  data () {
+    return {
+      logo: require('../assets/images/logo.png')
     }
   },
   methods: {
@@ -35,6 +43,10 @@ export default {
     color: #fff;
     font-size: 20px;
     font-weight: bold;
+    img {
+      width: 50px;
+      height: 50px;
+    }
   }
   .right {
     display: flex;
