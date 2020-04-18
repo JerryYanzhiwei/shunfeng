@@ -1,6 +1,6 @@
 <template>
   <div v-if="joinedData.length || applyList.length" class="team_cener_container">
-    <PublicTitle title="已加入" />
+    <PublicTitle title="已加入" color="#fff" />
     <div class="team_contain added_contain">
       <div v-if="!joinedData.length" class="no_data">
         暂无数据
@@ -11,7 +11,7 @@
         class="team_item">
         <div class="team_name">
           <i class="iconfont icon-tuandui"></i>
-          {{item.teamName}}
+          <b class="name">{{item.teamName}}</b>
           <span>{{item.teamNo}}</span>
         </div>
         <div class="item_contain">
@@ -61,7 +61,7 @@
       layout="prev, pager, next"
       :total="joinPage.total">
     </el-pagination>
-    <PublicTitle title="申请列表" />
+    <PublicTitle title="申请列表" color="#fff" />
     <div class="team_contain">
       <div v-if="!applyList.length" class="no_data">
         暂无数据
@@ -73,7 +73,7 @@
         <i v-if="item.applyState === 0" class="apply_state">申请中</i>
         <div class="team_name">
           <i class="iconfont icon-tuandui"></i>
-          {{item.teamName}}
+          <b class="name">{{item.teamName}}</b>
           <span>{{item.teamNo}}</span>
         </div>
         <div class="item_contain">
@@ -259,7 +259,8 @@ export default {
         overflow: hidden;
         margin-left: 3.3%;
 
-        background-color: #fff;
+        background-color: $card_bg_color;
+        border: 2px solid $border_color;
         border-radius: 10px;
         cursor: pointer;
         &.apply_contain {
@@ -270,6 +271,7 @@ export default {
             position: absolute;
             top: 10px;
             left: 10px;
+            color: #fff;
           }
         }
         transition: all .2s linear;
@@ -287,10 +289,16 @@ export default {
           text-align: center;
           font-size: 16px;
           font-weight: bold;
+          i {
+            color: #fff;
+          }
           span {
             font-size: 12px;
             font-weight: normal;
-            color: #dc1e32;
+            color: #fff;
+          }
+          .name {
+            color: $border_color;
           }
         }
         .item_contain {
@@ -301,7 +309,7 @@ export default {
             margin-bottom: 15px;
 
             font-size: 14px;
-            color: #666;
+            color: #fff;
             .title {
               width: 30%;
               padding-right: 5px;

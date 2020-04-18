@@ -7,7 +7,12 @@
       <el-aside width="200px">
         <SideMenu />
       </el-aside>
-      <el-main>
+      <el-main
+        :style="{
+          background: $route.path === '/main/userInfo' ? '' : `url(${bg}) repeat center`,
+          backgroundSize: 'cover',
+          backgroundAttachment: 'fixed'
+        }">
         <router-view/>
       </el-main>
     </el-container>
@@ -17,10 +22,16 @@
 <script>
 import MainHeader from '@/components/MainHeader.vue'
 import SideMenu from '@/components/SideMenu.vue'
+import bg from '@/assets/bg.png'
 export default {
   components: {
     MainHeader,
     SideMenu
+  },
+  data () {
+    return {
+      bg
+    }
   },
   created () {
     const isLogin = '1'
@@ -41,6 +52,6 @@ export default {
 
 <style lang="scss">
   .el-main {
-    background-color: #f4f5f8;;
+    // background-color: #f4f5f8;;
   }
 </style>

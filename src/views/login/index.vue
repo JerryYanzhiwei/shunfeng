@@ -1,5 +1,9 @@
 <template>
-  <div class="login_container">
+  <div class="login_container"
+    :style="{
+      background: `url(${bg}) repeat center`,
+      backgroundSize: 'cover'
+    }">
     <!-- 登录 -->
     <div v-if="isLogin" class="login_content">
       <div class="login_top">
@@ -145,10 +149,12 @@
 
 <script>
 import { mapActions } from 'vuex'
+import bg from '@/assets/bg.png'
 export default {
   data () {
     return {
       logo: require('../../assets/images/title.jpg'),
+      bg,
       showCount: false,
       count: 0,
       timer: null,
@@ -241,13 +247,23 @@ export default {
     },
     // 注册账号
     submitRegistry () {
+      const width = document.body.clientWidth
       this.$refs.registryForm.validate(async (valid) => {
         if (valid) {
           const params = this.registryForm
           const res = await this.POST_REGISTRY(params)
           if (res.result === '0' && res.data) {
             this.$message.success('注册成功')
-            location.reload()
+            if (width < 500) {
+              this.$alert('注册成功, 请在电脑中继续操作', 'TIP', {
+                confirmButtonText: '确定',
+                callback: action => {
+                  location.reload()
+                }
+              })
+            } else {
+              location.reload()
+            }
           }
           console.log('通过', res)
         }
@@ -269,7 +285,6 @@ export default {
       width: 400px;
       padding: 20px;
 
-      box-shadow: 0 0 3px 3px #eee;
       border-radius: 8px;
       .login_top {
         margin-bottom: 30px;
@@ -280,6 +295,7 @@ export default {
           border-radius: 8px;
         }
       }
+      background-color: #fff;
       .login_txt {
         text-align: center;
         font-size: 18px;
@@ -322,7 +338,7 @@ export default {
       width: 400px;
       padding: 20px;
 
-      box-shadow: 0 0 3px 3px #eee;
+      background-color: #fff;
       border-radius: 8px;
       .registry_txt {
         position: relative;

@@ -1,5 +1,9 @@
 <template>
-  <div class="teamhall_container">
+  <div class="teamhall_container"
+    :style="{
+      background: `url(${bg}) repeat center`,
+      backgroundSize: 'cover'
+    }">
     <el-header class="main_header">
       <MainHeader></MainHeader>
     </el-header>
@@ -7,11 +11,11 @@
       <div class="fitler_contain">
         <div>
           <span>
-            队伍编号:
+            <span class="white">队伍编号:</span>
             <el-input v-model="hallData.teamNo" size="mini"></el-input>
           </span>
           <span>
-            省份:
+            <span class="white">省份:</span>
             <el-select
               size="mini"
               v-model="hallData.province"
@@ -29,12 +33,12 @@
           <el-button @click="search" size="mini">搜索</el-button>
         </div>
       </div>
-      <PublicTitle title="队伍列表" />
+      <PublicTitle title="队伍列表" color="#fff" />
       <div class="team_contain">
         <div v-for="(item, index) in teamList" :key="index" class="team_item">
           <div class="team_name">
             <span class="teamNum">{{item.teamNo}}</span>
-            {{item.teamName}}
+            <span class="title">{{item.teamName}}</span>
           </div>
           <div class="item_contain">
             <div class="item_detail">
@@ -82,7 +86,7 @@
           </div>
           <div class="btn_contain">
             <span class="limit_count">{{item.memberNum}}/5</span>
-            <el-button :disabled="item.applyState === 1 || item.applyState === 0" @click="joinTeam(item.teamNo)" type="danger" size="mini">
+            <el-button :disabled="item.applyState === 1 || item.applyState === 0" @click="joinTeam(item.teamNo)" size="mini">
               {{
                 item.applyState === 1 && '已加入' ||
                 item.applyState === 0 && '申请中' ||
@@ -124,6 +128,7 @@
 import { mapActions } from 'vuex'
 import PublicTitle from '@/components/public_title.vue'
 import MainHeader from '@/components/MainHeader.vue'
+import bg from '@/assets/bg.png'
 
 import jsonData from '@/config/province.js'
 export default {
@@ -133,6 +138,7 @@ export default {
   },
   data () {
     return {
+      bg,
       // 弹框是否可见
       dialogVisible: false,
       // hall data
@@ -237,14 +243,15 @@ export default {
         display: flex;
         flex-wrap: wrap;
         .team_item {
+          background-color: $card_bg_color;
           width: 31%;
           margin-top: 30px;
           overflow: hidden;
           margin-left: 3.3%;
 
-          background-color: #fff;
           border-radius: 10px;
           transition: all .2s linear;
+          border: 2px solid $border_color;
           &:nth-child(3n + 1) {
             margin-left: 0;
           }
@@ -268,7 +275,10 @@ export default {
 
               font-size: 12px;
               font-weight: normal;
-              color: #dc1e32;
+              color: #fff;
+            }
+            .title {
+              color: $border_color;
             }
           }
           .item_contain {
@@ -279,7 +289,7 @@ export default {
               margin-bottom: 10px;
 
               font-size: 14px;
-              color: #666;
+              color: #fff;
               .title {
                 width: 20%;
                 padding-right: 5px;
@@ -308,7 +318,7 @@ export default {
             padding: 0 30px;
 
             // background: #dc1e32;
-            border-top: 1px solid #dc1e32;
+            border-top: 1px solid $border_color;
             color: #fff;
             font-size: 14px;
             span {
@@ -316,7 +326,7 @@ export default {
               color: #666;
               &.limit_count {
                 font-weight: bold;
-                color: #dc1e32;
+                color: #fff;
               }
             }
           }

@@ -65,6 +65,7 @@ export default {
   },
   created () {
     this.getUserInfo()
+    console.log(this.$route.path)
   },
   methods: {
     ...mapActions(['GET_USER_INFO', 'PUT_USER_INFO']),

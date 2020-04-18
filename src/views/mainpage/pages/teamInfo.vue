@@ -1,6 +1,6 @@
 <template>
   <div class="team_info_container">
-    <PublicTitle title="队伍信息" />
+    <PublicTitle title="队伍信息" color="#fff" />
     <div v-if="teamInfo" class="leader_contain">
       <div class="leader_top">
         <div class="item">
@@ -90,7 +90,7 @@
         </div>
       </div>
     </div>
-    <PublicTitle title="队伍成员" />
+    <PublicTitle title="队伍成员" color="#fff" />
     <div v-if="teamInfo" class="member_contain">
       <!-- 队伍成员 -->
       <div v-for="(item, index) in teamInfo.teamMembers" :key="index" class="member_item">
@@ -208,7 +208,10 @@ export default {
       padding: 20px 0;
 
       background: white;
-      box-shadow: 1px 2px 5px 1px #D3D3D3;
+      box-shadow: 1px 2px 5px 1px $border_color;
+      border-radius: 5px;
+      border: 2px solid $border_color;
+      background-color: $card_bg_color;
       .leader_top {
         display: flex;
         flex-wrap: wrap;
@@ -231,11 +234,11 @@ export default {
             width: 80px;
             margin-right: 5px;
 
-            color: rgb(51, 51, 51);
+            color: #fff;
             text-align: right;
           }
           .item_detail {
-            color: rgb(51, 51, 51);
+            color: #fff;
           }
         }
       }
@@ -253,14 +256,14 @@ export default {
             width: 80px;
             margin-right: 5px;
 
-            color: rgb(51, 51, 51);
+            color: #fff;
             text-align: right;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
           }
           .item_detail {
-            color: rgb(51, 51, 51);
+            color: #fff;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;

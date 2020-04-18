@@ -1,5 +1,9 @@
 <template>
-  <div class="module_select_container">
+  <div class="module_select_container"
+    :style="{
+      background: `url(${bg}) repeat center`,
+      backgroundSize: 'cover'
+    }">
     <el-header class="main_header">
       <MainHeader></MainHeader>
     </el-header>
@@ -144,6 +148,7 @@
 <script>
 import MainHeader from '@/components/MainHeader.vue'
 import jsonData from '@/config/province.js'
+import bg from '@/assets/bg.png'
 
 import { mapActions } from 'vuex'
 export default {
@@ -152,6 +157,7 @@ export default {
   },
   data () {
     return {
+      bg,
       dialogVisible: false,
       matchArr: jsonData,
       provinceArr: [],
@@ -273,7 +279,8 @@ export default {
         width: 400px;
         height: 300px;
 
-        background-color: #fff;
+        background-color: $card_bg_color;
+        color: #fff;
         transition: all .2s linear;
         border-radius: 8px;
         cursor: pointer;

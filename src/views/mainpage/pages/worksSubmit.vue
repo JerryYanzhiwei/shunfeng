@@ -1,7 +1,7 @@
 <template>
   <!-- 作品提交 -->
   <div class="works_submit_container">
-    <PublicTitle title="作品提交" />
+    <PublicTitle title="作品提交" color="#fff" />
     <div class="submit_container">
       <div class="submit_item">
         <div class="submit_left flex_center">作品说明书</div>
@@ -80,9 +80,9 @@
         </div>
       </div>
     </div>
-    <PublicTitle title="作品进度" />
+    <PublicTitle title="作品进度" color="#fff" />
     <div class="current_progress">
-      <span>当前进度</span>
+      <span class="progress">当前进度</span>
       <span class="bold process">{{processTxt}}</span>
     </div>
   </div>
@@ -225,10 +225,10 @@ export default {
   .submit_container {
     margin-top: 30px;
     margin-bottom: 50px;
-    box-shadow: 1px 2px 5px 1px #D3D3D3;
+    box-shadow: 1px 2px 5px 1px #fff;
     .submit_item {
       display: flex;
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid #fff;
       &:last-child {
         border-bottom: unset;
       }
@@ -238,9 +238,10 @@ export default {
         align-items: center;
         width: 20%;
         padding: 0 20px;
+        color: #fff;
       }
       .submit_left {
-        border-right: 1px solid #ddd;
+        border-right: 1px solid #fff;
       }
       .submit_center {
         display: flex;
@@ -254,6 +255,7 @@ export default {
         .center_left {
           flex-grow: 1;
           padding: 20px;
+          color: #fff;
         }
         .center_right {
           flex-shrink: 0;
@@ -272,6 +274,7 @@ export default {
               display: inline-block;
               text-overflow: ellipsis;
               white-space: nowrap;
+              color: #fff;
             }
           }
           .del_btn {
@@ -284,6 +287,7 @@ export default {
             margin-left: 20px;
             cursor: pointer;
             font-size: 20px;
+            color: #fff;
           }
         }
       }
@@ -303,6 +307,9 @@ export default {
     margin-top: 30px;
 
     font-size: 16px;
+    .progress {
+      color: #fff;
+    }
     .process {
       margin-left: 10%;
     }
