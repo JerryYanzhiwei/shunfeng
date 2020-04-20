@@ -108,11 +108,10 @@
             </el-input>
           </el-form-item>
           <el-form-item
-            prop="fileName"
             label="学生证"
             >
             <span v-if="fileName">{{fileName}} <i @click="clickUploadBtn(2)" class="reload">重新上传</i></span>
-            <el-button v-else size="mini" @click="clickUploadBtn(2)" type="danger">上传</el-button>
+            <el-button v-else size="mini" @click="clickUploadBtn(2)">上传</el-button>
             <input type="file" v-show="false" ref="file2" @change="fileChange">
           </el-form-item>
           <!-- 专业 -->
@@ -207,8 +206,12 @@ export default {
         grade: '',
         described: ''
       },
-      postForm: null,
-      rules: {
+      postForm: null
+    }
+  },
+  computed: {
+    rules () {
+      return {
         name: [
           { required: true, message: '', trigger: 'blur' }
         ],
@@ -231,9 +234,6 @@ export default {
           { required: true, message: '', trigger: 'blur' }
         ],
         grade: [
-          { required: true, message: '', trigger: 'blur' }
-        ],
-        fileName: [
           { required: true, message: '', trigger: 'blur' }
         ]
       }
@@ -373,6 +373,8 @@ export default {
             }
           }
           console.log('通过', res)
+        } else {
+          console.log(21321)
         }
       })
     }
