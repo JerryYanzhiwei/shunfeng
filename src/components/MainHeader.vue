@@ -1,8 +1,7 @@
 <template>
   <div class="main_header_container">
     <div class="left_txt">
-      <img :src="logo" alt="">
-      物流创新设计大赛
+      顺丰杯物流创新设计大赛
     </div>
     <div class="right">
       <span @click="$router.push('/main')">{{userData.name}}</span>

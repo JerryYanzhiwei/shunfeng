@@ -38,6 +38,19 @@
         <el-button @click="editUserInfo" size="mini">修改</el-button>
       </div>
     </div>
+    <PublicTitle title="作品模板下载"/>
+    <div class="user_contain ops_contain">
+      <p>
+        包装类课题介绍
+        <i class="iconfont icon-xiazai1 download_btn"
+                @click="download(0)"></i>
+      </p>
+      <p>
+        物流类课题介绍
+        <i class="iconfont icon-xiazai1 download_btn"
+                @click="download(1)"></i>
+      </p>
+    </div>
   </div>
 </template>
 
@@ -68,7 +81,11 @@ export default {
     console.log(this.$route.path)
   },
   methods: {
-    ...mapActions(['GET_USER_INFO', 'PUT_USER_INFO']),
+    ...mapActions(['GET_USER_INFO', 'PUT_USER_INFO', 'GET_DOWNLOAD_TEMPLATE']),
+    // 下载附件
+    async download (attachmentId) {
+      this.GET_DOWNLOAD_TEMPLATE(attachmentId)
+    },
     async editUserInfo () {
       const params = this.userForm
       const res = await this.PUT_USER_INFO(params)
@@ -93,13 +110,27 @@ export default {
   width: 100%;
   min-height: 100vh;
 
-  background-color: #f4f5f8;
+  // background-color: #f4f5f8;
   .user_contain {
     margin-top: 30px;
+    margin-bottom: 40px;
     padding: 20px 30px;
 
     background-color: #fff;
+    box-shadow:0px 2px 6px rgba(0,0,0,0.2);
     border-radius: 8px;
+    &.ops_contain {
+      display: flex;
+      p {
+        margin-right: 20px;
+        color: #dc1e32;
+        .download_btn {
+          margin-left: 5px;
+          cursor: pointer;
+          font-size: 12px;
+        }
+      }
+    }
     .user_top {
       display: flex;
       justify-content: space-between;

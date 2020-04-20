@@ -6,9 +6,6 @@
     }">
     <!-- 登录 -->
     <div v-if="isLogin && deviceType === 1" class="login_content">
-      <div class="login_top">
-        <img :src="logo" alt="">
-      </div>
       <p class="login_txt">登录</p>
       <div class="form_item">
         <span class="label_title">手机号</span>
@@ -21,16 +18,17 @@
       <div v-else class="form_item msg_input">
         <span class="label_title">验证码</span>
         <el-input v-model="loginForm.verificationCode" size="mini"></el-input>
-        <span class="send_msg">发送验证码</span>
+        <span v-if="!showLoginCode" @click="sendLoginCode" class="send_msg">发送验证码</span>
+        <span v-else class="send_msg">{{loginCode}}</span>
       </div>
       <div class="btn_contain">
         <span @click="isLogin = false">注册</span>
         <el-button v-if="!loginType" @click="passwordLogin">登录</el-button>
         <el-button v-if="loginType" @click="codeLogin">登录</el-button>
         <span @click="changeLoginType">
-          <!-- {{
+          {{
             !loginType ? '验证码登录' : '密码登录'
-          }} -->
+          }}
         </span>
       </div>
     </div>
@@ -109,6 +107,14 @@
               >
             </el-input>
           </el-form-item>
+          <el-form-item
+            prop="fileName"
+            label="学生证"
+            >
+            <span v-if="fileName">{{fileName}} <i @click="clickUploadBtn(2)" class="reload">重新上传</i></span>
+            <el-button v-else size="mini" @click="clickUploadBtn(2)" type="danger">上传</el-button>
+            <input type="file" v-show="false" ref="file2" @change="fileChange">
+          </el-form-item>
           <!-- 专业 -->
           <el-form-item
             prop="profession"
@@ -144,7 +150,8 @@
         <el-button @click="submitRegistry" size="mini">注册</el-button>
       </div>
     </div>
-    <div v-if="false" class="prize_contain">
+    <!-- 抽奖 -->
+    <div v-if="drawVisibel" class="prize_contain">
       <p class="luck_draw_txt">点击抽奖</p>
       <div class="prize_items">
         <div @click="touchPrize" class="prize_detail" v-for="(item, index) in [1, 2, 3]" :key="index">
@@ -170,15 +177,20 @@ export default {
       showCount: false,
       count: 0,
       timer: null,
+      loginTimer: null,
+      showLoginCode: false,
+      loginCode: 0,
       deviceType: null, // 1: PC 2: phone
       // 是否可抽奖
       canDraw: true,
       // 抽奖弹框
-      drawVisibel: true,
+      drawVisibel: false,
       // true: 登录  false: 注册
       isLogin: true,
       // false: 密码登录  true: 验证码登录
       loginType: false,
+      studentCard: '',
+      fileName: '',
       loginForm: {
         phone: '',
         password: '',
@@ -195,6 +207,7 @@ export default {
         grade: '',
         described: ''
       },
+      postForm: null,
       rules: {
         name: [
           { required: true, message: '', trigger: 'blur' }
@@ -219,15 +232,63 @@ export default {
         ],
         grade: [
           { required: true, message: '', trigger: 'blur' }
+        ],
+        fileName: [
+          { required: true, message: '', trigger: 'blur' }
         ]
       }
     }
+  },
+  created () {
+    this.postForm = new FormData()
   },
   mounted () {
     this.deviceType = document.body.clientWidth > 500 ? 1 : 2
   },
   methods: {
-    ...mapActions(['login', 'POST_GET_CODE', 'POST_REGISTRY']),
+    ...mapActions(['login', 'POST_GET_CODE', 'POST_REGISTRY', 'LOGIN_CODE', 'CODE_LOGIN']),
+    clickUploadBtn (type) {
+      console.log('上传类型', type)
+      const ref = `file${type}`
+      const dom = this.$refs[ref]
+      dom && dom.click()
+    },
+    async fileChange (e) {
+      const file = e.target.files[0]
+      console.log('file:', file)
+      const arr = file.name.split('.')
+      const type = arr[arr.length - 1]
+      const acceptTypes = ['png', 'jpg', 'jpeg']
+      if (type && acceptTypes.indexOf(type) > -1) {
+        this.fileName = file.name
+        this.studentCard = file
+        this.postForm.append('studentCardFile', file)
+        const dom = this.$refs.file2
+        dom.value = ''
+      } else {
+        this.$message.error('只允许上传jpg,png,jpeg类型文件')
+      }
+    },
+    // 获取登录验证码
+    async sendLoginCode () {
+      const res = await this.LOGIN_CODE({
+        phone: this.loginForm.phone
+      })
+      if (res.result === '0' && res.data) {
+        this.$message.success('发送成功')
+        this.loginCode = 60
+        this.showLoginCode = true
+        this.loginTimer = setInterval(() => {
+          this.loginCode--
+          if (this.loginCode === 0) {
+            clearInterval(this.loginTimer)
+            this.loginTimer = null
+            this.showLoginCode = false
+            this.loginCode = 60
+          }
+        }, 1000)
+      }
+    },
     // 抽奖
     touchPrize ($el) {
       if (this.canDraw) {
@@ -248,12 +309,21 @@ export default {
       }
       console.log('密码登录', res)
     },
-    codeLogin () {
-      console.log('密码登录')
+    async codeLogin () {
+      const res = await this.CODE_LOGIN(this.loginForm)
+      if (res.result === '0') {
+        sessionStorage.setItem('userInfo', JSON.stringify(res.data))
+        this.$router.push('/moduleSelect')
+      }
+      console.log('验证码登录', res)
     },
     // 切换登录方式
     changeLoginType () {
       this.loginType = !this.loginType
+      const dom = this.$refs.file2
+      dom.value = ''
+      this.studentCard = null
+      this.fileName = ''
     },
     // 获取注册验证码
     async getRegistryCode () {
@@ -281,8 +351,14 @@ export default {
       const width = document.body.clientWidth
       this.$refs.registryForm.validate(async (valid) => {
         if (valid) {
-          const params = this.registryForm
-          const res = await this.POST_REGISTRY(params)
+          if (!this.studentCard) {
+            this.$message.error('请上传学生证')
+            return
+          }
+          for (var key in this.registryForm) {
+            this.postForm.append(key, this.registryForm[key])
+          }
+          const res = await this.POST_REGISTRY(this.postForm)
           if (res.result === '0' && res.data) {
             this.$message.success('注册成功')
             if (width < 500) {
@@ -312,6 +388,11 @@ export default {
 
     width: 100%;
     height: 100vh;
+    .reload {
+      font-size: 12px;
+      color: #409EFF;
+      cursor: pointer;
+    }
     .login_content {
       width: 400px;
       padding: 20px;

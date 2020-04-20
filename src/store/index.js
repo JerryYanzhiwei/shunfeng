@@ -17,8 +17,19 @@ export default new Vuex.Store({
       const { data: res } = await axios.post(`/login?phone=${data.phone}&password=${data.password}`)
       return res
     },
+    // 登录获取验证码
+    async LOGIN_CODE ({ commit }, data = {}) {
+      const { data: res } = await axios.get(`/login/code?phone=${data.phone}`)
+      return res
+    },
+    // 验证码登录
+    async CODE_LOGIN ({ commit }, data = {}) {
+      console.log(data, 1111)
+      const { data: res } = await axios.post(`/login/code?phone=${data.phone}&code=${data.verificationCode}`)
+      return res
+    },
     async POST_GET_CODE ({ commit }, data = {}) {
-      const { data: res } = await axios.post(`/code?phone=${data.phone}`)
+      const { data: res } = await axios.get(`/code?phone=${data.phone}`)
       return res
     },
     async POST_REGISTRY ({ commit }, data = {}) {
@@ -122,6 +133,11 @@ export default new Vuex.Store({
     async GET_DOWNLOAD_FILE ({ commit }, attachmentId = 0) {
       const url = '/user/teamInfo/dowload/attachment'
       window.open(`${BASE_URL}${url}?attachmentId=${attachmentId}`)
+    },
+    // 下载模板
+    async GET_DOWNLOAD_TEMPLATE ({ commit }, attachmentId = 0) {
+      const url = '/user/teamInfo/dowload/template'
+      window.open(`${BASE_URL}${url}?templateFileType=${attachmentId}`)
     }
   },
   modules: {
