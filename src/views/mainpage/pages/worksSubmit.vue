@@ -194,7 +194,10 @@ export default {
         if (res.result === '0' && res.data) {
           console.log(res.data)
           const process = res.data.teamProgress
-          this.processTxt = process === 0 ? '初选' : process === 1 ? '半决赛' : '决赛'
+          this.processTxt = process === 0 && '初选'
+          this.processTxt = process === 1 && '半决赛'
+          this.processTxt = process === 2 && '决赛'
+          this.processTxt = process === 3 && '淘汰'
           const files = res.data.attachments
           this.file = []
           this.file1 = []
