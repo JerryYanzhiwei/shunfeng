@@ -188,7 +188,7 @@ export default {
       isLogin: true,
       // false: 密码登录  true: 验证码登录
       loginType: false,
-      studentCard: '',
+      studentCard: null,
       fileName: '',
       loginForm: {
         phone: '',
@@ -239,9 +239,6 @@ export default {
       }
     }
   },
-  created () {
-    this.postForm = new FormData()
-  },
   mounted () {
     this.deviceType = document.body.clientWidth > 500 ? 1 : 2
   },
@@ -262,7 +259,6 @@ export default {
       if (type && acceptTypes.indexOf(type) > -1) {
         this.fileName = file.name
         this.studentCard = file
-        this.postForm.append('studentCardFile', file)
         const dom = this.$refs.file2
         dom.value = ''
       } else {
@@ -355,6 +351,8 @@ export default {
             this.$message.error('请上传学生证')
             return
           }
+          this.postForm = new FormData()
+          this.postForm.append('studentCardFile', this.studentCard)
           for (var key in this.registryForm) {
             this.postForm.append(key, this.registryForm[key])
           }
