@@ -9,7 +9,7 @@
       <p class="login_txt">登录</p>
       <div class="form_item">
         <span class="label_title">手机号</span>
-        <el-input v-model="loginForm.phone" size="mini"></el-input>
+        <el-input type="number" v-model="loginForm.phone" size="mini"></el-input>
       </div>
       <div v-if="!loginType" class="form_item">
         <span class="label_title">密码</span>
@@ -59,6 +59,7 @@
             prop="phone"
             label="手机号">
             <el-input
+              type="number"
               v-model="registryForm.phone"
               size="mini"
               >
