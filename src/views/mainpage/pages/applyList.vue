@@ -35,7 +35,9 @@
             </p>
             <p class="item_detail">
               <span class="title">留言: </span>
-              <span class="detail">{{item.leaveMessege}}</span>
+              <el-tooltip class="item" effect="dark" :content="item.leaveMessege" placement="top-start">
+                <span class="detail">{{item.leaveMessege}}</span>
+              </el-tooltip>
             </p>
           </div>
         </div>
@@ -148,9 +150,11 @@ export default {
 
           .item_detail {
             padding-bottom: 10px;
-
             font-size: 14px;
             color: #fff;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           }
         }
         .btn_contain {
