@@ -21,6 +21,11 @@
               v-model="hallData.province"
               placeholder="">
               <el-option
+                key="z"
+                label="全部"
+                value="">
+              </el-option>
+              <el-option
                 v-for="item in provinceData"
                 :key="item.code"
                 :label="item.city"
@@ -71,7 +76,7 @@
             </div>
             <div class="item_detail">
               <div class="title">招募需求: </div>
-              <el-tooltip class="item" effect="dark" :content="item.teamIntroduction" placement="top-start">
+              <el-tooltip class="item" effect="dark" :content="item.recruitmentDemand" placement="top-start">
                 <div class="detail">{{item.recruitmentDemand}}</div>
               </el-tooltip>
             </div>
@@ -97,11 +102,12 @@
         </div>
       </div>
       <el-pagination
+        v-if="pageData"
         small
         :page-size="pageData.pageSize"
         @current-change="pageChange"
         layout="prev, pager, next"
-        :total="pageData.total">
+        :total="pageData.recordNumber">
       </el-pagination>
     </div>
     <el-dialog
@@ -153,7 +159,7 @@ export default {
         leaveMesseges: '',
         teamNo: ''
       },
-      pageData: {},
+      pageData: null,
       provinceData: []
     }
   },
@@ -188,6 +194,7 @@ export default {
       const params = this.hallData
       const res = await this.GET_HALL_DATA({ params })
       if (res.result === '0' && res.data) {
+        res.data.total = parseInt(res.data.total)
         this.pageData = res.data
         this.teamList = res.data.records
       }

@@ -299,6 +299,10 @@ export default {
     },
     // 密码登录
     async passwordLogin () {
+      if (!this.validatePhone(this.loginForm.phone)) {
+        this.$message.error('请输入正确的手机号码')
+        return
+      }
       const res = await this.login(this.loginForm)
       if (res.result === '0') {
         sessionStorage.setItem('userInfo', JSON.stringify(res.data))
@@ -348,6 +352,14 @@ export default {
       const width = document.body.clientWidth
       this.$refs.registryForm.validate(async (valid) => {
         if (valid) {
+          if (!this.validatePhone(this.registryForm.phone)) {
+            this.$message.error('请输入正确的手机号码')
+            return
+          }
+          if (!this.validateEmail(this.registryForm.email)) {
+            this.$message.error('请输入正确的邮箱')
+            return
+          }
           if (!this.studentCard) {
             this.$message.error('请上传学生证')
             return

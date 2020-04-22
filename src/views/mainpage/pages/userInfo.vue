@@ -38,7 +38,7 @@
         <el-button @click="editUserInfo" size="mini">修改</el-button>
       </div>
     </div>
-    <PublicTitle title="作品模板下载"/>
+    <PublicTitle title="赛题详情下载"/>
     <div class="user_contain ops_contain">
       <p>
         包装类课题介绍

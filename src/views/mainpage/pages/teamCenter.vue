@@ -59,7 +59,7 @@
       :page-size="joinPage.pageSize"
       @current-change="joinPageChange"
       layout="prev, pager, next"
-      :total="joinPage.total">
+      :total="joinPage.recordNumber">
     </el-pagination>
     <PublicTitle title="申请列表" color="#fff" />
     <div class="team_contain">
@@ -124,7 +124,7 @@
       :page-size="applyPage.pageSize"
       @current-change="applyPageChange"
       layout="prev, pager, next"
-      :total="applyPage.total">
+      :total="applyPage.recordNumber">
     </el-pagination>
     <el-dialog
       width="30%"

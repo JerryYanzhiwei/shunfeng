@@ -114,3 +114,9 @@ input::-webkit-inner-spin-button {
 input[type="number"]{
   -moz-appearance: textfield;
 }
+.el-pagination .btn-next, .el-pagination .btn-prev {
+  color: #fff;
+}
+.el-pagination {
+  color: #fff;
+}
