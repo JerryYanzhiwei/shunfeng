@@ -33,6 +33,25 @@
               </el-option>
             </el-select>
           </span>
+          <span>
+            <span class="white">分类:</span>
+            <el-select
+              size="mini"
+              v-model="hallData.directionId"
+              placeholder="">
+              <el-option
+                :key="-1"
+                label="全部"
+                value="">
+              </el-option>
+              <el-option
+                v-for="item in directList"
+                :key="item.directionName"
+                :label="item.directionName"
+                :value="item.directionId">
+              </el-option>
+            </el-select>
+          </span>
         </div>
         <div>
           <el-button @click="search" size="mini">搜索</el-button>
@@ -152,13 +171,15 @@ export default {
         pageNo: 1,
         pageSize: 12,
         province: null,
-        teamNo: null
+        teamNo: null,
+        directionId: null
       },
       teamList: [],
       joinData: {
         leaveMesseges: '',
         teamNo: ''
       },
+      directList: [],
       pageData: null,
       provinceData: []
     }
@@ -166,9 +187,20 @@ export default {
   created () {
     this.getHallData()
     this.getProvinces()
+    this.getDirect()
   },
   methods: {
-    ...mapActions(['GET_HALL_DATA', 'POST_APPLY_TEAM']),
+    ...mapActions(['GET_HALL_DATA', 'POST_APPLY_TEAM', 'GET_DIRECTION']),
+
+    async getDirect () {
+      const res = await this.GET_DIRECTION()
+      if (res.result === '0' && res.data) {
+        res.data.map((item) => {
+          this.directList = this.directList.concat(item.directions)
+        })
+      }
+      console.log(res)
+    },
 
     getProvinces () {
       let arr = []
