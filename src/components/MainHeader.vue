@@ -1,6 +1,6 @@
 <template>
   <div class="main_header_container">
-    <div class="left_txt">
+    <div @click="toModule" class="left_txt">
       顺丰杯物流创新设计大赛
     </div>
     <div class="right">
@@ -32,6 +32,9 @@ export default {
   methods: {
     exitLogin () {
       this.$router.push('/')
+    },
+    toModule () {
+      this.$router.push('/moduleSelect')
     }
   }
 }
@@ -48,6 +51,7 @@ export default {
     color: #fff;
     font-size: 20px;
     font-weight: bold;
+    cursor: pointer;
     img {
       width: 50px;
       height: 50px;
