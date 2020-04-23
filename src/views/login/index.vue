@@ -9,7 +9,7 @@
       <p class="login_txt">登录</p>
       <div class="form_item">
         <span class="label_title">手机号</span>
-        <el-input v-model="loginForm.phone" size="mini"></el-input>
+        <el-input type="number" v-model="loginForm.phone" size="mini"></el-input>
       </div>
       <div v-if="!loginType" class="form_item">
         <span class="label_title">密码</span>
@@ -59,6 +59,7 @@
             prop="phone"
             label="手机号">
             <el-input
+              type="number"
               v-model="registryForm.phone"
               size="mini"
               >
@@ -188,7 +189,7 @@ export default {
       isLogin: true,
       // false: 密码登录  true: 验证码登录
       loginType: false,
-      studentCard: '',
+      studentCard: null,
       fileName: '',
       loginForm: {
         phone: '',
@@ -239,9 +240,6 @@ export default {
       }
     }
   },
-  created () {
-    this.postForm = new FormData()
-  },
   mounted () {
     this.deviceType = document.body.clientWidth > 500 ? 1 : 2
   },
@@ -262,7 +260,6 @@ export default {
       if (type && acceptTypes.indexOf(type) > -1) {
         this.fileName = file.name
         this.studentCard = file
-        this.postForm.append('studentCardFile', file)
         const dom = this.$refs.file2
         dom.value = ''
       } else {
@@ -302,6 +299,10 @@ export default {
     },
     // 密码登录
     async passwordLogin () {
+      if (!this.validatePhone(this.loginForm.phone)) {
+        this.$message.error('请输入正确的手机号码')
+        return
+      }
       const res = await this.login(this.loginForm)
       if (res.result === '0') {
         sessionStorage.setItem('userInfo', JSON.stringify(res.data))
@@ -351,10 +352,20 @@ export default {
       const width = document.body.clientWidth
       this.$refs.registryForm.validate(async (valid) => {
         if (valid) {
+          if (!this.validatePhone(this.registryForm.phone)) {
+            this.$message.error('请输入正确的手机号码')
+            return
+          }
+          if (!this.validateEmail(this.registryForm.email)) {
+            this.$message.error('请输入正确的邮箱')
+            return
+          }
           if (!this.studentCard) {
             this.$message.error('请上传学生证')
             return
           }
+          this.postForm = new FormData()
+          this.postForm.append('studentCardFile', this.studentCard)
           for (var key in this.registryForm) {
             this.postForm.append(key, this.registryForm[key])
           }

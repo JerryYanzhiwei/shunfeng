@@ -21,10 +21,34 @@
               v-model="hallData.province"
               placeholder="">
               <el-option
+                key="z"
+                label="全部"
+                value="">
+              </el-option>
+              <el-option
                 v-for="item in provinceData"
                 :key="item.code"
                 :label="item.city"
                 :value="item.code">
+              </el-option>
+            </el-select>
+          </span>
+          <span>
+            <span class="white">分类:</span>
+            <el-select
+              size="mini"
+              v-model="hallData.directionId"
+              placeholder="">
+              <el-option
+                :key="-1"
+                label="全部"
+                value="">
+              </el-option>
+              <el-option
+                v-for="item in directList"
+                :key="item.directionName"
+                :label="item.directionName"
+                :value="item.directionId">
               </el-option>
             </el-select>
           </span>
@@ -71,7 +95,7 @@
             </div>
             <div class="item_detail">
               <div class="title">招募需求: </div>
-              <el-tooltip class="item" effect="dark" :content="item.teamIntroduction" placement="top-start">
+              <el-tooltip class="item" effect="dark" :content="item.recruitmentDemand" placement="top-start">
                 <div class="detail">{{item.recruitmentDemand}}</div>
               </el-tooltip>
             </div>
@@ -97,11 +121,12 @@
         </div>
       </div>
       <el-pagination
+        v-if="pageData"
         small
         :page-size="pageData.pageSize"
         @current-change="pageChange"
         layout="prev, pager, next"
-        :total="pageData.total">
+        :total="pageData.recordNumber">
       </el-pagination>
     </div>
     <el-dialog
@@ -146,23 +171,36 @@ export default {
         pageNo: 1,
         pageSize: 12,
         province: null,
-        teamNo: null
+        teamNo: null,
+        directionId: null
       },
       teamList: [],
       joinData: {
         leaveMesseges: '',
         teamNo: ''
       },
-      pageData: {},
+      directList: [],
+      pageData: null,
       provinceData: []
     }
   },
   created () {
     this.getHallData()
     this.getProvinces()
+    this.getDirect()
   },
   methods: {
-    ...mapActions(['GET_HALL_DATA', 'POST_APPLY_TEAM']),
+    ...mapActions(['GET_HALL_DATA', 'POST_APPLY_TEAM', 'GET_DIRECTION']),
+
+    async getDirect () {
+      const res = await this.GET_DIRECTION()
+      if (res.result === '0' && res.data) {
+        res.data.map((item) => {
+          this.directList = this.directList.concat(item.directions)
+        })
+      }
+      console.log(res)
+    },
 
     getProvinces () {
       let arr = []
@@ -188,6 +226,7 @@ export default {
       const params = this.hallData
       const res = await this.GET_HALL_DATA({ params })
       if (res.result === '0' && res.data) {
+        res.data.total = parseInt(res.data.total)
         this.pageData = res.data
         this.teamList = res.data.records
       }

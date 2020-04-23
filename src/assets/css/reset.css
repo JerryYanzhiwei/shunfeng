@@ -106,3 +106,17 @@ html, body, #app {
 .el-message-box {
   width: 100%;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+input[type="number"]{
+  -moz-appearance: textfield;
+}
+.el-pagination .btn-next, .el-pagination .btn-prev {
+  color: #fff;
+}
+.el-pagination {
+  color: #fff;
+}

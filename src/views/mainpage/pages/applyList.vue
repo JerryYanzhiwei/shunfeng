@@ -35,7 +35,9 @@
             </p>
             <p class="item_detail">
               <span class="title">留言: </span>
-              <span class="detail">{{item.leaveMessege}}</span>
+              <el-tooltip class="item" effect="dark" :content="item.leaveMessege" placement="top-start">
+                <span class="detail">{{item.leaveMessege}}</span>
+              </el-tooltip>
             </p>
           </div>
         </div>
@@ -110,18 +112,18 @@ export default {
       display: flex;
       flex-wrap: wrap;
       .member_item {
+        position: relative;
+
         width: 31%;
         margin-top: 30px;
         overflow: hidden;
         margin-left: 3.3%;
+        padding-bottom: 50px;
 
         background-color: $card_bg_color;
         border-radius: 10px;
         transition: all .2s linear;
         border: 2px solid $border_color;
-        .member_header {
-          border-bottom: 1px solid $border_color;
-        }
         &:nth-child(3n + 1) {
           margin-left: 0;
         }
@@ -148,19 +150,25 @@ export default {
 
           .item_detail {
             padding-bottom: 10px;
-
             font-size: 14px;
             color: #fff;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           }
         }
         .btn_contain {
+          position: absolute;
+          bottom: 0;
           display: flex;
 
+          width: 100%;
           height: 50px;
           line-height: 50px;
 
           color: #fff;
           font-size: 14px;
+          border-top: 1px solid $border_color;
           span {
             width: 50%;
             text-align: center;
