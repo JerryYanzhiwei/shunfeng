@@ -34,7 +34,7 @@
             </el-select>
           </span>
           <span>
-            <span class="white">分类:</span>
+            <span class="white">方向:</span>
             <el-select
               size="mini"
               v-model="hallData.directionId"

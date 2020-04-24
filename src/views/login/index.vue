@@ -54,6 +54,22 @@
               >
             </el-input>
           </el-form-item>
+          <!-- 性别 -->
+          <el-form-item
+            prop="gender"
+            label="性别">
+            <el-select
+              size="mini"
+              v-model="registryForm.gender"
+              placeholder="">
+              <el-option
+                v-for="item in sexArr"
+                :key="item.code"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
           <!-- 手机号 -->
           <el-form-item
             prop="phone"
@@ -199,6 +215,7 @@ export default {
       registryForm: {
         name: '',
         phone: '',
+        gender: '',
         verificationCode: '',
         password: '',
         email: '',
@@ -207,7 +224,17 @@ export default {
         grade: '',
         described: ''
       },
-      postForm: null
+      postForm: null,
+      sexArr: [
+        {
+          label: '男',
+          value: 1
+        },
+        {
+          label: '女',
+          value: 2
+        }
+      ]
     }
   },
   computed: {
@@ -217,6 +244,9 @@ export default {
           { required: true, message: '', trigger: 'blur' }
         ],
         phone: [
+          { required: true, message: '', trigger: 'blur' }
+        ],
+        gender: [
           { required: true, message: '', trigger: 'blur' }
         ],
         verificationCode: [
